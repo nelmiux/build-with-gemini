@@ -8,6 +8,13 @@ Comprehensive architecture documentation, interactive visualization app, and ver
 
 ---
 
+
+> [!IMPORTANT]
+> **Executive Briefing & Enterprise Recommendation Available**:
+> - 📄 **[Comprehensive Assessment & Recommendation Report](ASSESSMENT_AND_RECOMMENDATIONS.md)**: Quantitative ROI, traditional vs AI security comparison, CISO FAQ, and 90-day implementation roadmap.
+> - 📊 **[Executive Briefing Deck](EXECUTIVE_SUMMARY.md)**: Ready-to-present slides for engineering teams, architecture review boards, and security leaders.
+> - 🏛️ **[Full Architecture Evolution Report](docs/ARCHITECTURE_EVOLUTION_REPORT.md)**: Deep architectural report with 6 Mermaid diagrams and phase-by-phase transformation breakdown.
+
 ## 🌟 Executive Overview & Purpose
 
 This repository provides an enterprise blueprint for securing **autonomous multi-agent AI systems** deployed on Google Cloud. 
