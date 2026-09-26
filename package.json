@@ -1,0 +1,22 @@
+{
+  "name": "build-with-gemini-novasmart",
+  "version": "1.0.0",
+  "description": "NovaSmart AI Agent Governance & Architecture Blueprint (M0-M5) - Google Cloud Build with Gemini Track 2",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "python3 -m http.server 8080",
+    "test": "bash scripts/verify_estate.sh"
+  },
+  "keywords": [
+    "google-cloud",
+    "vertex-ai",
+    "agent-governance",
+    "reasoning-engines",
+    "model-armor",
+    "spiffe-identity",
+    "build-with-gemini"
+  ],
+  "author": "nelmiux",
+  "license": "Apache-2.0"
+}
