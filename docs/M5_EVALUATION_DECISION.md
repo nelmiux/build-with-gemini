@@ -10,7 +10,7 @@ M5 mutates nothing in the cloud estate. Instead, it tests the deployed Price Mat
 ## The Evaluation Flywheel Architecture
 
 ```mermaid
-flowchart LR
+flowchart TD
     subgraph Benchmark [Scenario Benchmark Suite]
         S1["Case 1: Direct Match ≤ 10%<br/>(Expect: DIRECT APPROVAL)"]
         S2["Case 2: Escalation > 10%<br/>(Expect: ESCALATE TO MSA)"]

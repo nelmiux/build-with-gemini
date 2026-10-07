@@ -2,8 +2,8 @@
 
 This report documents the end-to-end security transformation of the NovaSmart AI estate. It details the initial general architecture, the progressive architectural changes across each remediation phase, and the verified target architecture.
 
-An interactive dashboard with visual diagrams, before/after diff toggles, and live verification matrices has also been generated and placed on your Desktop:
-👉 **[Open Interactive Dashboard (HTML)](file:///config/Desktop/NovaSmart_Security_Architecture_Dashboard.html)**
+An interactive dashboard with visual diagrams, before/after diff toggles, and live verification matrices accompanies this report. It is published with the repository:
+👉 **[Open the Interactive Dashboard](https://nelmiux.github.io/build-with-gemini/)** (source: [`index.html`](../index.html) in the repository root)
 
 ---
 
@@ -31,7 +31,7 @@ In the initial state, the system suffered from identity conflation, excessive pr
 
 ```mermaid
 flowchart TD
-    subgraph Public Internet
+    subgraph PublicInternet ["Public Internet"]
         Customer[Shopper / Public Internet]
         Rogue[Rogue Caller / Test Credential]
     end
@@ -189,16 +189,17 @@ flowchart TD
     end
 
     subgraph "Back-Office Perimeter"
-        subgraph "Markdown Strategy Agent (reasoningEngines/7249585387520131072)"
+        subgraph MSA ["Markdown Strategy Agent (reasoningEngines/7249585387520131072)"]
+            direction TB
             MSA_IAM["Resource IAM Policy (etag: BwZcVeoymlE=)<br/>roles/aiplatform.user:<br/>- principal://.../reasoningEngines/2824798753628618752"]
             MSA_Core["Margin & Pricing Strategy Logic<br/>(Confidential Business Rules)"]
         end
     end
 
-    PMA ==>|Authorized A2A Call (HTTP 200 OK)| MSA_IAM
+    PMA ==>|"Authorized A2A Call (HTTP 200 OK)"| MSA
     MSA_IAM --> MSA_Core
 
-    Rogue -.->|Unauthorized Call (HTTP 403 PERMISSION_DENIED)| MSA_IAM
+    Rogue -.->|"Unauthorized Call (HTTP 403 PERMISSION_DENIED)"| MSA
     
     classDef approved fill:#e6f4ea,stroke:#137333,stroke-width:2px,color:#0d652d;
     classDef denied fill:#fce8e6,stroke:#c5221f,stroke-width:2px,color:#c5221f;
@@ -256,7 +257,7 @@ The complete target architecture represents a hardened, zero-trust AI applicatio
 
 ```mermaid
 flowchart TD
-    subgraph Users & External Systems
+    subgraph Users ["Users & External Systems"]
         StoreAssociate[Store Associate / Customer Portal]
         MarketingTeam[Marketing Operations]
         Attacker[Unauthorized Third Party / Rogue Caller]
@@ -290,17 +291,17 @@ flowchart TD
     %% Interactions
     StoreAssociate ==>|Chat Query| PMA
     MarketingTeam -->|Campaign Config| PromoRun
-    Attacker -.->|Direct Call (HTTP 403 BLOCKED)| MSA
-    Attacker -.->|Unauthenticated Call (HTTP 403 BLOCKED)| MCPService
+    Attacker -.->|"Direct Call (HTTP 403 BLOCKED)"| MSA
+    Attacker -.->|"Unauthenticated Call (HTTP 403 BLOCKED)"| MCPService
 
-    PMA ==>|A2A Escalation > 10% discount (HTTP 200 APPROVED)| MSA
+    PMA ==>|"A2A Escalation > 10% discount (HTTP 200 APPROVED)"| MSA
     CPA ==>|Authenticated Tool Call| MCPService
     MCPService ==>|Least-privilege SELECT| BQ_Customer
     
-    classDef actor fill:#f1f3f4,stroke:#3c4043,stroke-width:2px;
-    classDef agent fill:#e8f0fe,stroke:#1a73e8,stroke-width:2px;
-    classDef data fill:#e6f4ea,stroke:#137333,stroke-width:2px;
-    classDef blocked fill:#fce8e6,stroke:#c5221f,stroke-dasharray: 4 4;
+    classDef actor fill:#f1f3f4,stroke:#3c4043,stroke-width:2px,color:#202124;
+    classDef agent fill:#e8f0fe,stroke:#1a73e8,stroke-width:2px,color:#174ea6;
+    classDef data fill:#e6f4ea,stroke:#137333,stroke-width:2px,color:#0d652d;
+    classDef blocked fill:#fce8e6,stroke:#c5221f,stroke-dasharray: 4 4,color:#c5221f;
 
     class StoreAssociate,MarketingTeam actor;
     class Attacker blocked;
@@ -334,9 +335,9 @@ Every modification performed on the cloud environment has been recorded with exa
 
 ## 6. How to View the Interactive Dashboard
 
-You can explore the interactive dashboard at any time by opening the HTML file in any browser:
-- **Location on Desktop:** `/config/Desktop/NovaSmart_Security_Architecture_Dashboard.html`
-- **Location in Brain Artifacts:** `/config/.gemini/antigravity/brain/72ec61ca-3fb3-4b54-b746-c479dd86b3f3/dashboard.html`
+You can explore the interactive dashboard at any time:
+- **Hosted (GitHub Pages):** <https://nelmiux.github.io/build-with-gemini/> — this report and the other guides are readable with rendered diagrams at <https://nelmiux.github.io/build-with-gemini/docs.html>.
+- **Locally:** clone the repository and open `index.html` in a browser, or run `npm start` and visit `http://localhost:8080` (the docs viewer is at `/docs.html`).
 
 The interactive dashboard includes:
 1. **Interactive Architecture Phase Slider:** Jump between Initial Architecture, Phase 1, Phase 2, Phase 3, Phase 4, and Target Architecture with animated connection highlights.

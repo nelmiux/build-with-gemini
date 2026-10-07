@@ -16,7 +16,7 @@ flowchart TD
         Rogue[Rogue Test Caller / test-agent-caller]
     end
 
-    subgraph CloudRun [Cloud Run Workloads (us-central1)]
+    subgraph CloudRun ["Cloud Run Workloads (us-central1)"]
         ShadowPromo["promo-agent-shadow (Cloud Run)<br/>[UNREGISTERED SHADOW IT]"]
         MCP["novasmart-mcp (Cloud Run)<br/>[PUBLIC INVOKER: allUsers]"]
     end

@@ -1,0 +1,8 @@
+# Local tooling / personal environment
+.envrc
+.direnv/
+node_modules/
+.DS_Store
+
+# Assembled static site (built by scripts/build_site.sh and the Pages workflow)
+_site/

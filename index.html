@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%233b82f6%27/%3E%3Cstop offset=%271%27 stop-color=%27%2306b6d4%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%27100%27 height=%27100%27 rx=%2722%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2750%27 y=%2772%27 font-size=%2762%27 text-anchor=%27middle%27%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E">
   <title>NovaSmart AI Governance — Build with Gemini (M0-M5) Architecture & Security App</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -266,6 +267,27 @@
       background: var(--accent-blue);
       border-radius: 3px 3px 0 0;
       box-shadow: 0 0 10px var(--accent-blue);
+    }
+
+    .tab-bar a.tab-button {
+      text-decoration: none;
+      margin-left: auto;
+      white-space: nowrap;
+      color: var(--accent-cyan);
+    }
+
+    .tab-bar a.tab-button:hover {
+      color: var(--text-main);
+    }
+
+    a.meta-badge {
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a.meta-badge:hover {
+      color: var(--text-main);
+      border-color: var(--border-glow);
     }
 
     /* Tab Content Section */
@@ -899,6 +921,12 @@
         <div class="meta-badge">
           <span>Posture: HARDENED (94%)</span>
         </div>
+        <a class="meta-badge" href="docs.html" title="Documentation, mission guides and interactive diagrams">
+          <span>📚 Docs</span>
+        </a>
+        <a class="meta-badge" href="https://github.com/nelmiux/build-with-gemini" target="_blank" rel="noopener" title="Source code on GitHub">
+          <span>GitHub ↗</span>
+        </a>
       </div>
     </header>
 
@@ -970,6 +998,9 @@
       <button class="tab-button" onclick="switchTab('presentation')">
         <span>📊</span> Executive Presentation & Recommendations
       </button>
+      <a class="tab-button" href="docs.html" title="Mission guides (M0–M5), reports and interactive Mermaid diagrams">
+        <span>📚</span> Documentation & Diagrams
+      </a>
     </div>
 
     <!-- TAB 1: ARCHITECTURE EXPLORER -->

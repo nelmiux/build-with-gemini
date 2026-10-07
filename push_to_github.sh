@@ -7,6 +7,7 @@ echo "Target: https://github.com/nelmiux/build-with-gemini"
 echo "=========================================================="
 
 if [ -z "${GITHUB_TOKEN:-}" ]; then
+  echo "The token needs the 'repo' and 'workflow' scopes (the repository contains .github/workflows/pages.yml)."
   read -s -p "Enter your GitHub Personal Access Token (PAT): " GITHUB_TOKEN
   echo ""
 fi

@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "serve": "python3 -m http.server 8080",
+    "serve": "python3 -m http.server 8080 --bind 127.0.0.1",
+    "build": "bash scripts/build_site.sh _site",
+    "validate:diagrams": "bash scripts/validate_diagrams.sh",
     "test": "bash scripts/verify_estate.sh"
   },
   "keywords": [
@@ -18,5 +20,10 @@
     "build-with-gemini"
   ],
   "author": "nelmiux",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "homepage": "https://nelmiux.github.io/build-with-gemini/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nelmiux/build-with-gemini.git"
+  }
 }

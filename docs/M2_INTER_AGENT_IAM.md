@@ -17,7 +17,8 @@ flowchart TD
     end
 
     subgraph BackOffice [Back-Office Perimeter]
-        subgraph MSA [Markdown Strategy Agent (reasoningEngines/7249585387520131072)]
+        subgraph MSA ["Markdown Strategy Agent (reasoningEngines/7249585387520131072)"]
+            direction TB
             MSA_IAM["Resource IAM Policy (etag: BwZcVeoymlE=)<br/>roles/aiplatform.user:<br/>- PMA SPIFFE Principal ONLY"]
             MSA_Logic["Confidential Margin Calculation & Rules"]
         end
@@ -27,10 +28,10 @@ flowchart TD
         MCP["novasmart-mcp<br/>roles/run.invoker:<br/>- CPA SPIFFE Principal ONLY<br/>[allUsers REVOKED]"]
     end
 
-    PMA ==>|Authorized A2A Escalation (HTTP 200 OK)| MSA_IAM
+    PMA ==>|"Authorized A2A Escalation (HTTP 200 OK)"| MSA
     MSA_IAM --> MSA_Logic
 
-    Rogue -.->|Unauthorized Call (HTTP 403 PERMISSION_DENIED)| MSA_IAM
+    Rogue -.->|"Unauthorized Call (HTTP 403 PERMISSION_DENIED)"| MSA
 ```
 
 ---

@@ -1,0 +1,78 @@
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege by default; each job only adds what its actions need.
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate Mermaid diagrams
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Render every Mermaid block in the Markdown docs
+        run: bash scripts/validate_diagrams.sh
+
+  build:
+    name: Assemble static site
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check that GitHub Pages is enabled for this repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! build_type="$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.build_type' 2>/dev/null)"; then
+            echo "::error title=GitHub Pages is not enabled::A workflow cannot switch Pages on by itself. A repository admin must do it once: Settings → Pages → Build and deployment → Source: GitHub Actions (or: gh api -X POST repos/${GITHUB_REPOSITORY}/pages -f build_type=workflow). Then re-run this workflow."
+            exit 1
+          fi
+          echo "GitHub Pages is enabled (build_type=${build_type})."
+          if [ "${build_type}" != "workflow" ]; then
+            echo "::warning title=Pages source is not 'GitHub Actions'::Pages is configured with build_type=${build_type}. Set Settings → Pages → Source to 'GitHub Actions' so this workflow's deployments are served."
+          fi
+      - name: Assemble site into _site/
+        run: bash scripts/build_site.sh _site
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
