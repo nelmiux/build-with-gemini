@@ -531,7 +531,7 @@
         <aside class="verdict" aria-labelledby="verdict-title">
           <div class="eyebrow">My verdict</div>
           <h2 id="verdict-title">Very useful, 10 out of 10. Adopt its five controls as our baseline before any agent reaches production.</h2>
-          <p>The workshop was unusually practical: real cloud identity and access controls, real failure modes, and a rule that nothing counts until a log line or a status code proves it. The pattern transfers to our environment whatever platform we use.</p>
+          <p>The workshop was unusually practical: real cloud identity and access controls, real failure modes, and a rule that nothing counts until a log line or a status code proves it.</p>
           <ol>
             <li>Every agent is catalogued with a named owner.</li>
             <li>Every agent has its own identity, no shared logins.</li>
@@ -659,7 +659,6 @@
             <h3>Limits to keep in mind</h3>
             <ul>
               <li><strong>It is a lab.</strong> A clean, temporary project with a handful of agents. Our estate has more owners, more legacy identities and more data classifications.</li>
-              <li><strong>Product names are Google’s.</strong> Agent Registry, Agent Runtime, Agent Gateway, Model Armor and the Gen AI evaluation service map to concepts we can implement with other tools, but the specific features do not transfer one to one.</li>
               <li><strong>One mission was not available.</strong> M4 (“Find and Patch”) was announced but not part of the lab yet. In the guide it is CodeMender, an AI code-security agent that scans an agent’s code, confirms a vulnerability by attempting a real exploit and proposes a tested patch (in Public Preview).</li>
               <li><strong>Costs and latency were not measured.</strong> The screening and gateway layers add components to run and pay for; the lab discussed the trade-off but produced no numbers.</li>
               <li><strong>A control that is on is not a control that is effective.</strong> The screening door covered one agent, the Price Match Agent, and by design it fails open: if the screening service cannot run, messages pass. The lab also warns that an agent refused by a control can still answer in confident prose, so monitoring has to read the control’s own log, not the agent’s reply.</li>
@@ -679,7 +678,7 @@
         <div class="roadmap" id="roadmap"></div>
 
         <hr class="rule">
-        <h3>Questions I expect</h3>
+        <h3>Questions people asked at the workshop</h3>
         <div id="faq"></div>
 
         <hr class="rule">
@@ -1024,10 +1023,9 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
   ];
 
   const FAQ = [
-    ['Why not just tell the agent in its instructions never to do these things?', 'Instructions are text the model reads alongside the attacker’s text. In the lab the front-desk agent’s own instructions contained an override code, and a customer who typed it got 90% off. Boundaries have to live outside the model: in identity, in access lists, at the gateway and in the database permissions. Instructions remain useful; they are just not a control.'],
-    ['Does screening slow the agent down or block real customers?', 'We did not measure latency, and the lab produced no numbers for it. What the lab did show is that ordinary requests went through the gateway unchanged, while the project-wide setting blocked them, legitimate 5% price matches included. Measuring added latency and false refusals is part of the pilot (weeks 7–9).'],
-    ['Is this Google-specific?', 'The products are. The controls are not: a catalog with owners, per-workload identities, caller allow-lists, an inspecting gateway and a scored evaluation set can be built on any major cloud or with open-source components. The lab is a concrete reference implementation of the pattern.'],
-    ['How confident should we be in the 4/4 evaluation result?', 'As confident as four scenarios allow, which is not very. One of the four was refused by the screen before the agent saw it, so it says nothing about the agent itself. The lab’s own guidance is that a small clean scorecard proves the harness works and little else, and its next step generates a larger set from real products and prices. Our own set should start at dozens of grounded cases, and a passing run should be checked against the version that is actually deployed.'],
+    ['Why can’t we just rely on prompt instructions like “Never disclose discount codes”?', 'Instructions are text the model reads alongside the attacker’s text. In the lab the front-desk agent’s own instructions contained an override code, and a customer who typed it got 90% off. Boundaries have to live outside the model: in identity, in access lists, at the gateway and in the database permissions. Instructions remain useful; they are just not a control.'],
+    ['Does adding an Agent Gateway with Model Armor introduce latency?', 'We did not measure latency, and the lab produced no numbers for it. What the lab did show is that ordinary requests went through the gateway unchanged, while the project-wide setting blocked them, legitimate 5% price matches included. Measuring added latency and false refusals is part of the pilot (weeks 7–9).'],
+    ['What tools from this lab should we install immediately?', 'Nothing needs installing: they are managed services. In the order of the five-point rule: Agent Registry for the catalog and named owners; Agent Runtime for a platform-issued identity per agent; Agent Gateway with Model Armor for screening customer messages; and the Gen AI evaluation service for scoring a scenario set before release. Caller allow-lists need no extra product: they are a setting on each agent.'],
   ];
 
   /* =========================================================
@@ -1508,7 +1506,7 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
     { title: 'What was fixed (M1–M3)', html: `<div class="two"><div>
         <p><strong>M1 · Identity and least privilege</strong></p><ul><li>Promo agent registered with an owner.</li><li>Each agent on its own identity.</li><li>Admin rights revoked; read-only on one dataset.</li></ul>
         <p><strong>M2 · Who may call whom</strong></p><ul><li>Back office lists exactly one caller.</li><li>Leftover login evicted and refused (403).</li><li>Database tool closed to the public.</li></ul></div><div>
-        <p><strong>M3 · Screening what customers type</strong></p><ul><li>A customer could type the front desk’s own override code and get 90% off.</li><li>Gateway with Model Armor, Google’s message-screening service, placed in front of the front desk.</li><li>Attack replayed and blocked; ordinary requests unaffected. The personalization agent is not covered.</li></ul>
+        <p><strong>M3 · Screening what customers type</strong></p><ul><li>A customer could type the front desk’s own override code and get 90% off.</li><li>Gateway with Model Armor, a message-screening service, placed in front of the front desk.</li><li>Attack replayed and blocked; ordinary requests unaffected. The personalization agent is not covered.</li></ul>
         <p class="footer-note">Every step: look before changing, change, then prove it with a log line or a status code.</p></div></div>` },
     { kind: 'arch', stage: 0, title: 'Before: what the inventory found',
       caption: 'Dashed red: risky paths. Amber: works, but too broadly or with nothing screening the messages. Each box shows the component’s state.' },
@@ -1532,7 +1530,6 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
         <li>Evidence discipline: the attack path and the business path tested after every change.</li>
         <li>Measurement treated as a control, with its limits spelled out.</li></ul></div><div><p><strong>Limits</strong></p><ul>
         <li>A clean lab project, not our estate.</li>
-        <li>Google product names; the pattern transfers, the features do not one to one.</li>
         <li>Screening covered one agent and fails open.</li>
         <li>M4 not available; no cost or latency numbers.</li></ul></div></div>` },
     { title: 'Recommendation: five points before any agent goes live', html: `<div class="gates">${GATES.map(g => `<div class="gate"><h4>${esc(g.t)}</h4><p>${esc(g.short)}</p></div>`).join('')}</div>
