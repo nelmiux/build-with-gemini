@@ -19,7 +19,7 @@
     "spiffe-identity",
     "build-with-gemini"
   ],
-  "author": "nelmiux",
+  "author": "Nelma Perera",
   "license": "Apache-2.0",
   "homepage": "https://nelmiux.github.io/build-with-gemini/",
   "repository": {

@@ -164,6 +164,6 @@ python3 -m http.server 8080 --bind 127.0.0.1 -d _site
 
 ## 👤 Author & Acknowledgments
 
-- **Author**: nelmiux ([GitHub](https://github.com/nelmiux))
+- **Author**: Nelma Perera ([GitHub](https://github.com/nelmiux))
 - **Event**: Google Cloud *Build with Gemini* Platform Track
 - **Lab**: NovaSmart Enterprise AI Agent Governance Lab (Track 2)
