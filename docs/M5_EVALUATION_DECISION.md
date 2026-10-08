@@ -1,5 +1,8 @@
 # M5: Evaluate and Decide — Pre-Launch Quality Flywheel
 
+> [!NOTE]
+> **How to read this result.** The report reads the 4/4 more cautiously than the wording below: case 3 was refused by Model Armor before the agent saw it, so it tests the screen rather than the agent; the screen fails open; and four cases catch bad behaviour but cannot certify an agent. The GO applies to this baseline set. See the report's Evidence and Recommendation sections.
+
 ## Overview
 Module 5 provides the **Quality Flywheel & Pre-Launch Validation**: how to systematically evaluate, score, and certify an agent before deploying it to production.
 

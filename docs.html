@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%233b82f6%27/%3E%3Cstop offset=%271%27 stop-color=%27%2306b6d4%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%27100%27 height=%27100%27 rx=%2722%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2750%27 y=%2772%27 font-size=%2762%27 text-anchor=%27middle%27%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E">
-  <meta name="color-scheme" content="dark">
-  <title>Documentation · NovaSmart AI Governance Blueprint</title>
-  <meta name="description" content="Architecture documentation, mission guides (M0–M5) and interactive Mermaid diagrams for the NovaSmart AI Governance & Security Architecture Blueprint on Google Cloud.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2720%27 fill=%27%231d4ed8%27/%3E%3Cpath d=%27M50 18 L78 30 V52 C78 68 66 80 50 86 C34 80 22 68 22 52 V30 Z%27 fill=%27none%27 stroke=%27white%27 stroke-width=%277%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+  <meta name="color-scheme" content="light">
+  <title>Governing AI agents · Documentation</title>
+  <meta name="description" content="Mission records (M0–M3, M5), an author's note filed as M4, the architecture report, earlier drafts and the Mermaid diagrams behind the Build with Gemini field report.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0a0e17;
-      --bg-secondary: #111827;
-      --bg-tertiary: #1f2937;
-      --bg-card: rgba(31, 41, 55, 0.7);
-      --border-color: rgba(75, 85, 99, 0.4);
-      --border-glow: rgba(59, 130, 246, 0.5);
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f7f8fa;
+      --bg-tertiary: #eef0f3;
+      --bg-card: #ffffff;
+      --border-color: #e3e6ea;
+      --border-glow: #1d4ed8;
+      --text-main: #15181d;
+      --text-muted: #434a57;
       --text-dim: #6b7280;
-      --accent-blue: #3b82f6;
-      --accent-cyan: #06b6d4;
-      --accent-green: #10b981;
-      --accent-amber: #f59e0b;
-      --accent-red: #ef4444;
-      --accent-purple: #8b5cf6;
+      --accent-blue: #1d4ed8;
+      --accent-cyan: #1d4ed8;
+      --accent-green: #0f7b4f;
+      --accent-amber: #a85d00;
+      --accent-red: #c62828;
+      --accent-purple: #5b4bc4;
       --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
       --header-offset: 24px;
@@ -43,16 +43,13 @@
       line-height: 1.65;
       min-height: 100vh;
       overflow-x: hidden;
-      background-image:
-        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a { color: #93c5fd; }
-    a:hover { color: #bfdbfe; }
+    a { color: var(--accent-blue); }
+    code, pre { font-variant-ligatures: none; }
+    [hidden] { display: none !important; }
+    a:hover { color: #1941b8; }
 
     .skip-link {
       position: absolute; left: 8px; top: -48px;
@@ -68,25 +65,18 @@
       display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
       padding: 20px 28px;
       background: var(--bg-card);
-      backdrop-filter: blur(12px);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: 12px;
       margin-bottom: 24px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
     .brand { display: flex; align-items: center; gap: 16px; min-width: 0; }
     .shield-icon {
       width: 48px; height: 48px; flex: 0 0 48px;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 24px; text-decoration: none;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+      background: var(--accent-blue);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 22px; text-decoration: none;
     }
-    .brand-text h1 {
-      font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.25;
-      background: linear-gradient(90deg, #fff, #cbd5e1);
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    }
+    .brand-text h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.25; color: var(--text-main); }
     .brand-text p { font-size: 13px; color: var(--text-muted); }
 
     .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
@@ -94,15 +84,12 @@
       display: inline-flex; align-items: center; gap: 8px;
       font-family: var(--font-sans); font-size: 13px; font-weight: 600;
       padding: 9px 16px; border-radius: 10px; text-decoration: none; cursor: pointer;
-      background: rgba(17, 24, 39, 0.8); border: 1px solid var(--border-color); color: var(--text-muted);
+      background: var(--bg-primary); border: 1px solid #cfd4da; color: var(--text-main);
       transition: all 0.2s ease; white-space: nowrap;
     }
-    .btn:hover { color: var(--text-main); border-color: var(--border-glow); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-      color: #fff; border-color: transparent; box-shadow: 0 0 18px rgba(59, 130, 246, 0.35);
-    }
-    .btn-primary:hover { color: #fff; filter: brightness(1.08); }
+    .btn:hover { background: var(--bg-secondary); }
+    .btn-primary { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+    .btn-primary:hover { color: #fff; background: #1941b8; }
     .nav-toggle { display: none; }
 
     /* Layout */
@@ -116,7 +103,7 @@
     .sidebar, .toc {
       position: sticky; top: var(--header-offset);
       max-height: calc(100vh - 48px); overflow-y: auto;
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px;
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;
       padding: 18px;
     }
     .sidebar h2, .toc h2 {
@@ -133,11 +120,9 @@
       padding: 9px 10px; border-radius: 10px; text-decoration: none; color: var(--text-muted);
       border: 1px solid transparent; transition: all 0.15s ease;
     }
-    .nav-item:hover { background: rgba(255, 255, 255, 0.03); color: var(--text-main); }
-    .nav-item[aria-current="page"] {
-      background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.35); color: var(--text-main);
-    }
-    .nav-item .icon { font-size: 16px; line-height: 1.3; flex: 0 0 auto; }
+    .nav-item:hover { background: var(--bg-tertiary); color: var(--text-main); }
+    .nav-item[aria-current="page"] { background: #e9efff; border-color: #c4d3ff; color: var(--text-main); }
+    
     .nav-item .label { font-size: 13.5px; font-weight: 600; line-height: 1.3; }
     .nav-item .blurb { display: block; font-size: 11.5px; color: var(--text-dim); font-weight: 400; margin-top: 2px; }
     .nav-item[aria-current="page"] .blurb { color: var(--text-muted); }
@@ -149,7 +134,7 @@
     }
     .toc li.depth-3 a { padding-left: 20px; font-size: 12px; color: var(--text-dim); }
     .toc li a:hover { color: var(--text-main); }
-    .toc li a.active { color: var(--accent-cyan); border-left-color: var(--accent-cyan); }
+    .toc li a.active { color: var(--accent-blue); border-left-color: var(--accent-blue); }
     .toc .empty { font-size: 12px; color: var(--text-dim); padding: 4px 8px; }
 
     /* Content */
@@ -157,7 +142,7 @@
     .doc-toolbar {
       display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
       margin-bottom: 14px; padding: 10px 16px;
-      background: rgba(17, 24, 39, 0.6); border: 1px solid var(--border-color); border-radius: 12px;
+      background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px;
       font-size: 12.5px; color: var(--text-muted);
     }
     .crumbs { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12px; }
@@ -167,9 +152,8 @@
     .doc-toolbar .links a:hover { color: var(--text-main); }
 
     article.markdown-body {
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px;
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;
       padding: 36px 44px; min-height: 420px;
-      backdrop-filter: blur(12px);
       animation: fadeIn 0.3s ease;
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -178,46 +162,44 @@
     .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
       font-weight: 800; letter-spacing: -0.3px; line-height: 1.3; scroll-margin-top: 24px; position: relative;
     }
-    .markdown-body h1 { font-size: 30px; margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border-color);
-      background: linear-gradient(90deg, #fff, #cbd5e1); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-    .markdown-body h2 { font-size: 22px; margin: 38px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); color: #fff; }
-    .markdown-body h3 { font-size: 17px; margin: 28px 0 10px; color: #e5e7eb; }
+    .markdown-body h1 { font-size: 30px; margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border-color); color: var(--text-main); }
+    .markdown-body h2 { font-size: 22px; margin: 38px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); color: var(--text-main); }
+    .markdown-body h3 { font-size: 17px; margin: 28px 0 10px; color: var(--text-main); }
     .markdown-body h4 { font-size: 15px; margin: 22px 0 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-size: 12.5px; }
     .markdown-body .anchor {
       position: absolute; left: -22px; top: 0; opacity: 0; text-decoration: none; color: var(--text-dim); font-weight: 500;
     }
     .markdown-body h1:hover .anchor, .markdown-body h2:hover .anchor, .markdown-body h3:hover .anchor, .markdown-body h4:hover .anchor { opacity: 1; }
-    .markdown-body h1 .anchor { -webkit-text-fill-color: var(--text-dim); }
-
-    .markdown-body p { margin: 0 0 14px; color: #d1d5db; font-size: 15px; }
-    .markdown-body ul, .markdown-body ol { margin: 0 0 16px 24px; color: #d1d5db; font-size: 15px; }
+    
+    .markdown-body p { margin: 0 0 14px; color: var(--text-muted); font-size: 15px; }
+    .markdown-body ul, .markdown-body ol { margin: 0 0 16px 24px; color: var(--text-muted); font-size: 15px; }
     .markdown-body li { margin-bottom: 6px; }
     .markdown-body li > ul, .markdown-body li > ol { margin-top: 6px; margin-bottom: 6px; }
-    .markdown-body strong { color: #fff; font-weight: 700; }
-    .markdown-body em { color: #e5e7eb; }
+    .markdown-body strong { color: var(--text-main); font-weight: 600; }
+    .markdown-body em { color: var(--text-main); }
     .markdown-body hr { border: 0; border-top: 1px solid var(--border-color); margin: 30px 0; }
     .markdown-body img { max-width: 100%; height: auto; vertical-align: middle; }
     .markdown-body blockquote {
       margin: 0 0 16px; padding: 12px 18px; border-left: 3px solid var(--accent-blue);
-      background: rgba(59, 130, 246, 0.06); border-radius: 0 10px 10px 0; color: var(--text-muted);
+      background: var(--bg-secondary); border-radius: 0 8px 8px 0; color: var(--text-muted);
     }
     .markdown-body blockquote p:last-child { margin-bottom: 0; }
 
     .markdown-body code {
       font-family: var(--font-mono); font-size: 0.86em;
-      background: rgba(17, 24, 39, 0.9); border: 1px solid var(--border-color);
-      padding: 1px 6px; border-radius: 6px; color: #a5f3fc; word-break: break-word;
+      background: var(--bg-tertiary); border: 0;
+      padding: 1px 6px; border-radius: 4px; color: var(--text-main); word-break: break-word;
     }
     .code-block { position: relative; margin: 0 0 18px; }
     .code-block pre {
-      background: #0b1120; border: 1px solid var(--border-color); border-radius: 12px;
+      background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px;
       padding: 16px 18px; overflow-x: auto; font-size: 12.5px; line-height: 1.6;
     }
-    .code-block pre code { background: none; border: 0; padding: 0; color: #e5e7eb; font-size: inherit; word-break: normal; }
+    .code-block pre code { background: none; border: 0; padding: 0; color: var(--text-main); font-size: inherit; word-break: normal; }
     .copy-btn {
       position: absolute; top: 8px; right: 8px; font-family: var(--font-sans); font-size: 11px; font-weight: 600;
       padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border-color);
-      background: rgba(31, 41, 55, 0.9); color: var(--text-muted); cursor: pointer; opacity: 0; transition: opacity 0.15s ease;
+      background: var(--bg-primary); color: var(--text-muted); cursor: pointer; opacity: 0; transition: opacity 0.15s ease;
     }
     .code-block:hover .copy-btn, .copy-btn:focus { opacity: 1; }
     .copy-btn:hover { color: var(--text-main); border-color: var(--border-glow); }
@@ -225,28 +207,28 @@
     .table-wrap { overflow-x: auto; margin: 0 0 20px; border: 1px solid var(--border-color); border-radius: 12px; }
     .markdown-body table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
     .markdown-body th {
-      background: rgba(17, 24, 39, 0.9); color: var(--text-muted); font-weight: 700; text-transform: uppercase;
+      background: var(--bg-secondary); color: var(--text-dim); font-weight: 600; text-transform: uppercase;
       padding: 11px 14px; border-bottom: 1px solid var(--border-color); font-size: 11px; letter-spacing: 0.5px; white-space: nowrap;
     }
-    .markdown-body td { padding: 11px 14px; border-bottom: 1px solid rgba(75, 85, 99, 0.25); vertical-align: top; color: #d1d5db; }
+    .markdown-body td { padding: 11px 14px; border-bottom: 1px solid var(--border-color); vertical-align: top; color: var(--text-muted); }
     .markdown-body tr:last-child td { border-bottom: 0; }
-    .markdown-body tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    .markdown-body tr:hover td { background: var(--bg-secondary); }
     .markdown-body td code { white-space: pre-wrap; }
 
     /* GitHub-style alerts */
-    .alert { margin: 0 0 18px; padding: 14px 18px; border-radius: 12px; border: 1px solid; border-left-width: 4px; background: rgba(17, 24, 39, 0.6); }
+    .alert { margin: 0 0 18px; padding: 14px 18px; border-radius: 8px; border: 1px solid var(--border-color); border-left: 3px solid; background: var(--bg-secondary); }
     .alert-title { font-weight: 700; font-size: 13px; letter-spacing: 0.3px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
     .alert p:last-child, .alert ul:last-child { margin-bottom: 0; }
-    .alert-note { border-color: var(--accent-blue); } .alert-note .alert-title { color: #93c5fd; }
-    .alert-tip { border-color: var(--accent-green); } .alert-tip .alert-title { color: #6ee7b7; }
-    .alert-important { border-color: var(--accent-purple); } .alert-important .alert-title { color: #c4b5fd; }
-    .alert-warning { border-color: var(--accent-amber); } .alert-warning .alert-title { color: #fcd34d; }
-    .alert-caution { border-color: var(--accent-red); } .alert-caution .alert-title { color: #fca5a5; }
+    .alert-note { border-left-color: var(--accent-blue); } .alert-note .alert-title { color: var(--accent-blue); }
+    .alert-tip { border-left-color: var(--accent-green); } .alert-tip .alert-title { color: var(--accent-green); }
+    .alert-important { border-left-color: var(--accent-blue); } .alert-important .alert-title { color: var(--accent-blue); }
+    .alert-warning { border-left-color: var(--accent-amber); } .alert-warning .alert-title { color: var(--accent-amber); }
+    .alert-caution { border-left-color: var(--accent-red); } .alert-caution .alert-title { color: var(--accent-red); }
 
     /* Diagrams */
     .diagram {
       position: relative; margin: 0 0 22px; padding: 44px 16px 16px;
-      background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px;
+      background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px;
       overflow: hidden;
     }
     .diagram pre.mermaid { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); white-space: pre; visibility: hidden; }
@@ -265,32 +247,32 @@
     }
     .diagram-btn {
       font-family: var(--font-sans); font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: 6px;
-      border: 1px solid var(--border-color); background: rgba(31, 41, 55, 0.95); color: var(--text-muted); cursor: pointer;
+      border: 1px solid #cfd4da; background: var(--bg-primary); color: var(--text-muted); cursor: pointer;
       transition: all 0.15s ease;
     }
-    .diagram-btn:hover { color: var(--text-main); border-color: var(--border-glow); }
+    .diagram-btn:hover { color: var(--text-main); background: var(--bg-secondary); }
     .diagram-source { margin-top: 14px; display: none; }
     .diagram-source.open { display: block; }
-    .diagram-source pre { background: #0b1120; border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; overflow-x: auto; font-size: 12px; }
-    .diagram-source pre code { background: none; border: 0; padding: 0; color: #e5e7eb; }
+    .diagram-source pre { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; overflow-x: auto; font-size: 12px; }
+    .diagram-source pre code { background: none; border: 0; padding: 0; color: var(--text-main); }
     .diagram-error {
-      padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(239, 68, 68, 0.5); background: rgba(239, 68, 68, 0.1);
-      color: #fca5a5; font-size: 13px; margin-bottom: 10px;
+      padding: 12px 14px; border-radius: 8px; border: 1px solid #f0b8b8; background: #fdeceb;
+      color: var(--accent-red); font-size: 13px; margin-bottom: 10px;
     }
-    .diagram-error code { color: #fecaca; }
+    .diagram-error code { color: var(--accent-red); }
 
     /* Dialog (expanded diagram) */
     dialog#diagram-dialog {
       width: min(96vw, 1800px); height: 94vh; height: 94dvh; max-width: none; max-height: none; margin: auto;
-      background: var(--bg-primary); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 16px; padding: 0;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+      background: var(--bg-primary); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 12px; padding: 0;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
     }
     dialog#diagram-dialog[open] { display: flex; flex-direction: column; }
-    dialog#diagram-dialog::backdrop { background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(4px); }
+    dialog#diagram-dialog::backdrop { background: rgba(21, 24, 29, 0.55); }
     .dialog-bar {
       display: flex; justify-content: space-between; align-items: center; gap: 8px 12px; flex-wrap: wrap; flex: 0 0 auto;
       padding: 12px 16px; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary);
-      border-radius: 16px 16px 0 0;
+      border-radius: 12px 12px 0 0;
     }
     .dialog-bar .title { font-weight: 700; font-size: 14px; flex: 1 1 200px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .dialog-bar .controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
@@ -304,10 +286,10 @@
     .pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 18px; }
     .pager a {
       flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 14px 18px; text-decoration: none;
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; color: var(--text-main);
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main);
       transition: all 0.2s ease;
     }
-    .pager a:hover { border-color: var(--border-glow); transform: translateY(-1px); }
+    .pager a:hover { border-color: #cfd4da; background: var(--bg-secondary); }
     .pager a.next { text-align: right; }
     .pager .hint { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
     .pager .label { font-size: 14px; font-weight: 600; }
@@ -321,10 +303,10 @@
       border: 3px solid var(--border-color); border-top-color: var(--accent-blue); animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .status.error { color: #fca5a5; text-align: left; }
-    .status.error h2 { color: #fecaca; font-size: 18px; margin-bottom: 10px; }
-    .status.error p { margin-bottom: 10px; color: #e5e7eb; }
-    .status.error code { font-family: var(--font-mono); background: rgba(17, 24, 39, 0.9); padding: 1px 6px; border-radius: 6px; }
+    .status.error { color: var(--accent-red); text-align: left; }
+    .status.error h2 { color: var(--accent-red); font-size: 18px; margin-bottom: 10px; }
+    .status.error p { margin-bottom: 10px; color: var(--text-muted); }
+    .status.error code { font-family: var(--font-mono); background: var(--bg-tertiary); padding: 1px 6px; border-radius: 4px; }
 
     footer.docs-footer { margin-top: 28px; text-align: center; font-size: 12px; color: var(--text-dim); }
     footer.docs-footer a { color: var(--text-muted); }
@@ -333,7 +315,12 @@
       .docs-layout { grid-template-columns: 270px minmax(0, 1fr); }
       .toc { display: none; }
     }
+    @media (pointer: coarse) {
+      .diagram-btn, .doc-toolbar .links a { min-height: 44px; display: inline-flex; align-items: center; }
+      .nav-toggle { min-height: 44px; }
+    }
     @media (max-width: 860px) {
+      .diagram-label { display: none; }
       .docs-shell { padding: 16px; }
       header.docs-header { padding: 16px 18px; }
       .brand-text h1 { font-size: 18px; }
@@ -367,14 +354,14 @@
   <div class="docs-shell">
     <header class="docs-header">
       <div class="brand">
-        <a class="shield-icon" href="index.html" title="Back to the interactive app" aria-label="Back to the interactive app">🛡️</a>
+        <a class="shield-icon" href="index.html" title="Back to the report" aria-label="Back to the report"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 20 6.5v5.2c0 4.6-3.4 8-8 9.3-4.6-1.3-8-4.7-8-9.3V6.5L12 3z"/></svg></a>
         <div class="brand-text">
-          <h1>NovaSmart AI Governance — Documentation</h1>
-          <p>Architecture blueprint, mission guides (M0–M5), executive briefings and interactive diagrams</p>
+          <h1>Governing AI agents · Documentation</h1>
+          <p>Mission records (M0–M3, M5), an author’s note filed as M4, the architecture report, earlier drafts and the diagrams behind the field report</p>
         </div>
       </div>
       <div class="header-actions">
-        <a class="btn btn-primary" href="index.html"><span>🏗️</span> Open Interactive App</a>
+        <a class="btn btn-primary" href="index.html">Back to the report</a>
         <a class="btn" href="https://github.com/nelmiux/build-with-gemini" target="_blank" rel="noopener">GitHub ↗</a>
         <button class="btn nav-toggle" type="button" aria-expanded="false" aria-controls="sidebar">☰ Contents</button>
       </div>
@@ -396,7 +383,7 @@
         </article>
         <nav class="pager" id="pager" aria-label="Previous and next documents"></nav>
         <footer class="docs-footer">
-          NovaSmart AI Governance &amp; Security Architecture Blueprint · Google Cloud <em>Build with Gemini</em> Platform Track ·
+          Governing AI agents · field report from Google Cloud’s <em>Build with Gemini</em> workshop (Track 2) ·
           <a href="https://github.com/nelmiux/build-with-gemini" target="_blank" rel="noopener">Source on GitHub</a> ·
           Diagrams rendered with <a href="https://mermaid.js.org/" target="_blank" rel="noopener">Mermaid</a>
         </footer>
@@ -432,29 +419,29 @@
 
     const REPO_URL = 'https://github.com/nelmiux/build-with-gemini';
     const DEFAULT_DOC = 'README.md';
-    const SITE_TITLE = 'NovaSmart AI Governance Docs';
+    const SITE_TITLE = 'Governing AI agents · Docs';
 
     const DOCS = [
       { group: 'Overview', items: [
-        { path: 'README.md', title: 'Project Overview', icon: '🏠', blurb: 'Blueprint summary, target-state diagram, how to run and deploy.' },
+        { path: 'README.md', title: 'Project Overview', blurb: 'Summary, target-state diagram, how to run and deploy.' },
       ]},
-      { group: 'Executive', items: [
-        { path: 'EXECUTIVE_SUMMARY.md', title: 'Executive Briefing', icon: '📊', blurb: 'Business ROI, five-layer model, team recommendation.' },
-        { path: 'ASSESSMENT_AND_RECOMMENDATIONS.md', title: 'Assessment & Recommendations', icon: '📄', blurb: 'Quantitative ROI, CISO FAQ, 90-day roadmap.' },
+      { group: 'Earlier drafts', items: [
+        { path: 'EXECUTIVE_SUMMARY.md', title: 'Executive Briefing', blurb: 'First written briefing; superseded by the report.' },
+        { path: 'ASSESSMENT_AND_RECOMMENDATIONS.md', title: 'Assessment & Recommendations', blurb: 'First written assessment; superseded by the report.' },
       ]},
       { group: 'Architecture', items: [
-        { path: 'docs/ARCHITECTURE_EVOLUTION_REPORT.md', title: 'Architecture Evolution Report', icon: '🏛️', blurb: 'Phase-by-phase transformation with six diagrams.' },
+        { path: 'docs/ARCHITECTURE_EVOLUTION_REPORT.md', title: 'Architecture Evolution Report', blurb: 'Phase-by-phase transformation with six diagrams.' },
       ]},
       { group: 'Missions', items: [
-        { path: 'docs/M0_DISCOVERY.md', title: 'M0 · Discovery', icon: '🔍', blurb: 'Baseline estate audit and shadow IT findings.' },
-        { path: 'docs/M1_IDENTITY_DATA.md', title: 'M1 · Identity & Data', icon: '🪪', blurb: 'Agent Registry, dedicated identities, BigQuery ACLs.' },
-        { path: 'docs/M2_INTER_AGENT_IAM.md', title: 'M2 · Inter-Agent IAM', icon: '🔗', blurb: 'Reasoning Engine resource IAM and 403 refusal.' },
-        { path: 'docs/M3_CONTENT_SCREENING.md', title: 'M3 · Content Screening', icon: '🛡️', blurb: 'Model Armor on the Agent Gateway.' },
-        { path: 'docs/M4_SEMANTIC_GOVERNANCE.md', title: 'M4 · Semantic Governance', icon: '🧠', blurb: 'Tool-call inspection and exfiltration defense.' },
-        { path: 'docs/M5_EVALUATION_DECISION.md', title: 'M5 · Evaluation & Decision', icon: '✅', blurb: 'Scenario benchmark, LLM judge, go-live scorecard.' },
+        { path: 'docs/M0_DISCOVERY.md', title: 'M0 · Discovery', blurb: 'Baseline estate audit and shadow IT findings.' },
+        { path: 'docs/M1_IDENTITY_DATA.md', title: 'M1 · Identity & Data', blurb: 'Agent Registry, dedicated identities, BigQuery ACLs.' },
+        { path: 'docs/M2_INTER_AGENT_IAM.md', title: 'M2 · Inter-Agent IAM', blurb: 'Reasoning Engine resource IAM and 403 refusal.' },
+        { path: 'docs/M3_CONTENT_SCREENING.md', title: 'M3 · Content Screening', blurb: 'Model Armor on the Agent Gateway.' },
+        { path: 'docs/M4_SEMANTIC_GOVERNANCE.md', title: 'M4 · Author’s note', blurb: 'Tool-call inspection; the lab’s M4 was not available.' },
+        { path: 'docs/M5_EVALUATION_DECISION.md', title: 'M5 · Evaluation & Decision', blurb: 'Scenario benchmark, LLM judge, go-live scorecard.' },
       ]},
       { group: 'Audit', items: [
-        { path: 'docs/AUDIT_LEDGER.md', title: 'Master Audit Ledger', icon: '📜', blurb: 'Twelve changes with timestamps and rollback commands.' },
+        { path: 'docs/AUDIT_LEDGER.md', title: 'Master Audit Ledger', blurb: 'Twelve changes with timestamps and rollback commands.' },
       ]},
     ];
     const FLAT_DOCS = DOCS.flatMap(g => g.items.map(item => ({ ...item, group: g.group })));
@@ -529,7 +516,7 @@
         breaks: false,
         renderer: {
           heading({ tokens, depth, text }) {
-            const inner = this.parser.parseInline(tokens);
+            const inner = this.parser.parseInline(tokens).replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').trim();
             const id = slugify(text);
             return `<h${depth} id="${id}"><a class="anchor" href="#${id}" aria-label="Link to this section">#</a>${inner}</h${depth}>\n`;
           },
@@ -563,7 +550,6 @@
       });
 
       // GitHub-style alerts: > [!IMPORTANT] etc.
-      const ALERT_ICONS = { note: 'ℹ️', tip: '💡', important: '📌', warning: '⚠️', caution: '🚨' };
       root.querySelectorAll('blockquote').forEach(bq => {
         const p = bq.querySelector(':scope > p:first-child');
         if (!p) return;
@@ -574,7 +560,7 @@
         if (!p.textContent.trim()) p.remove();
         const div = document.createElement('div');
         div.className = `alert alert-${kind}`;
-        div.innerHTML = `<div class="alert-title">${ALERT_ICONS[kind]} ${kind.charAt(0).toUpperCase() + kind.slice(1)}</div>`;
+        div.innerHTML = `<div class="alert-title">${kind.charAt(0).toUpperCase() + kind.slice(1)}</div>`;
         while (bq.firstChild) div.appendChild(bq.firstChild);
         bq.replaceWith(div);
       });
@@ -651,22 +637,25 @@
         startOnLoad: false,
         securityLevel: 'strict',
         suppressErrorRendering: true,
-        theme: 'dark',
+        theme: 'base',
         themeVariables: {
           fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
           fontSize: '14px',
-          primaryColor: '#1f2937',
-          primaryTextColor: '#f3f4f6',
-          primaryBorderColor: '#60a5fa',
-          secondaryColor: '#172033',
-          tertiaryColor: '#0f172a',
-          lineColor: '#9ca3af',
-          textColor: '#e5e7eb',
-          nodeTextColor: '#f3f4f6',
-          clusterBkg: '#111827',
-          clusterBorder: '#4b5563',
-          edgeLabelBackground: '#111827',
-          titleColor: '#f3f4f6',
+          primaryColor: '#ffffff',
+          primaryTextColor: '#15181d',
+          primaryBorderColor: '#cfd4da',
+          secondaryColor: '#f7f8fa',
+          tertiaryColor: '#eef0f3',
+          lineColor: '#6b7280',
+          textColor: '#434a57',
+          nodeTextColor: '#15181d',
+          clusterBkg: '#f7f8fa',
+          clusterBorder: '#cfd4da',
+          edgeLabelBackground: '#ffffff',
+          titleColor: '#15181d',
+          background: '#ffffff',
+          mainBkg: '#ffffff',
+          nodeBorder: '#cfd4da',
         },
         flowchart: { htmlLabels: true, curve: 'basis', useMaxWidth: false, padding: 12 },
       });
@@ -863,7 +852,7 @@
           <h3>${escapeHtml(g.group)}</h3>
           ${g.items.map(d => `
             <a class="nav-item" href="${docUrl(d.path)}" data-path="${escapeHtml(d.path)}">
-              <span class="icon" aria-hidden="true">${d.icon}</span>
+        
               <span><span class="label">${escapeHtml(d.title)}</span><span class="blurb">${escapeHtml(d.blurb)}</span></span>
             </a>`).join('')}
         </div>`).join('');
@@ -900,7 +889,7 @@
       const prev = i > 0 ? FLAT_DOCS[i - 1] : null;
       const next = i >= 0 && i < FLAT_DOCS.length - 1 ? FLAT_DOCS[i + 1] : null;
       const link = (d, cls, hint) => d
-        ? `<a class="${cls}" href="${docUrl(d.path)}" data-path="${escapeHtml(d.path)}"><span class="hint">${hint}</span><span class="label">${d.icon} ${escapeHtml(d.title)}</span></a>`
+        ? `<a class="${cls}" href="${docUrl(d.path)}" data-path="${escapeHtml(d.path)}"><span class="hint">${hint}</span><span class="label">${escapeHtml(d.title)}</span></a>`
         : '<span class="spacer"></span>';
       $('#pager').innerHTML = link(prev, 'prev', '← Previous') + link(next, 'next', 'Next →');
       $('#pager').querySelectorAll('a').forEach(a => a.addEventListener('click', e => {

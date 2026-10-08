@@ -2,8 +2,10 @@
 
 This report documents the end-to-end security transformation of the NovaSmart AI estate. It details the initial general architecture, the progressive architectural changes across each remediation phase, and the verified target architecture.
 
-An interactive dashboard with visual diagrams, before/after diff toggles, and live verification matrices accompanies this report. It is published with the repository:
-👉 **[Open the Interactive Dashboard](https://nelmiux.github.io/build-with-gemini/)** (source: [`index.html`](../index.html) in the repository root)
+> [!NOTE]
+> **Scope.** This report covers M0–M2 and the clean-up of a residual project role. Content screening appears below only as an identified requirement: the Agent Gateway with Model Armor that M3 added and verified is not drawn in the target-state diagram, and M5 (evaluation) is not covered. See [M3](M3_CONTENT_SCREENING.md), [M5](M5_EVALUATION_DECISION.md) and the field report for those.
+
+The field report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/) (source: [`index.html`](../index.html)) tells the whole story for colleagues who were not at the workshop.
 
 ---
 
@@ -11,7 +13,7 @@ An interactive dashboard with visual diagrams, before/after diff toggles, and li
 
 Before remediation, the estate had zero per-agent identity isolation, an unregistered shadow AI service with full administrative rights to all BigQuery datasets, a publicly accessible MCP microservice, and a rogue test account authorized on the core markdown strategy agent.
 
-Through systematic phased remediation across M0 (Discovery), M1 (Identity & Data Least Privilege), and M2 (Inter-Agent Boundary Control), the estate was transformed into an enterprise-grade, least-privilege architecture.
+Through systematic phased remediation across M0 (Discovery), M1 (Identity & Data Least Privilege), and M2 (Inter-Agent Boundary Control), the estate was transformed into a verified, least-privilege architecture.
 
 | Security Dimension | Initial State (M0) | Remediated State (M1 + M2) | Status |
 | :--- | :--- | :--- | :---: |
@@ -133,9 +135,9 @@ flowchart TD
 
 ---
 
-### Phase 2: Least Privilege Data Access & Tool Lockdown (M1 Data Layer)
+### Phase 2: Least Privilege Data Access (M1) & Tool Lockdown (M2)
 
-Here, we eliminated broad project-wide administrator privileges and locked down the MCP tool container.
+Here, we eliminated broad project-wide administrator privileges (M1). The MCP tool container shown here was locked down later, in M2 (change log rows 10–11).
 
 ```mermaid
 flowchart TD
@@ -173,7 +175,7 @@ flowchart TD
 - **Revoked BigQuery Admin:** Removed `roles/bigquery.admin` from `novasmart-customer-sa`.
 - **Dataset-Level Authorization:** Scoped `READER` permissions directly on the `customer_data` dataset ACL to CPA's SPIFFE Identity. CPA cannot see or touch other datasets.
 - **Job Execution Right-Sizing:** Bound `roles/bigquery.jobUser` to CPA's SPIFFE identity at the project level, allowing query jobs without table access.
-- **MCP Perimeter:** Stripped `roles/run.invoker` from `allUsers` on `novasmart-mcp`. Bound `roles/run.invoker` strictly to CPA's SPIFFE principal.
+- **MCP Perimeter (M2, rows 10–11):** Stripped `roles/run.invoker` from `allUsers` on `novasmart-mcp`. Bound `roles/run.invoker` strictly to CPA's SPIFFE principal.
 
 ---
 
@@ -215,7 +217,7 @@ flowchart TD
 
 ---
 
-### Phase 4: Ambient IAM Pruning & Threat Boundary Definition (Tier 1 & M3)
+### Phase 4: Residual Grant Clean-up (M2) & Threat Boundary Definition (ahead of M3)
 
 In this phase, we pruned ambient project-wide grants from vacated service accounts to prevent engine invocation bypass, and mapped the defense boundary between Identity controls and Content screening.
 
@@ -253,7 +255,7 @@ flowchart TD
 
 ## 4. Final Hardened Architecture (Target State)
 
-The complete target architecture represents a hardened, zero-trust AI application ecosystem with defense-in-depth across identity, transport, resource, and data tiers.
+The target architecture shows the least-privilege end state of M1 and M2 across the identity, resource and data tiers (the M3 gateway is not drawn; see the scope note).
 
 ```mermaid
 flowchart TD
@@ -320,27 +322,26 @@ Every modification performed on the cloud environment has been recorded with exa
 | :-: | :--- | :--- | :--- | :---: | :--- |
 | **1** | M1 | Registered Shadow Agent under Marketing ownership | `services/promo-agent` | `2026-09-25T21:00:52Z` | `gcloud agent-registry services delete promo-agent --location=us-central1 --quiet` |
 | **2** | M1 | Created dedicated service account for Promo Agent | `promo-agent-sa` | `2026-09-25T21:12:22Z` | `gcloud iam service-accounts delete promo-agent-sa@qwiklabs-gcp-02-3408357845ee.iam.gserviceaccount.com --quiet` |
-| **3** | M1 | Bound minimal boot logging & metric roles | `promo-agent-sa` | `2026-09-25T21:12:24Z` | `gcloud projects remove-iam-policy-binding qwiklabs-gcp-02-3408357845ee --member="serviceAccount:promo-agent-sa@..." --role="roles/logging.logWriter"` |
+| **3** | M1 | Bound minimal boot logging & metric roles | `promo-agent-sa` | `2026-09-25T21:12:24Z` | `gcloud projects remove-iam-policy-binding qwiklabs-gcp-02-3408357845ee --member="serviceAccount:promo-agent-sa@..." --role="roles/logging.logWriter" && gcloud projects remove-iam-policy-binding qwiklabs-gcp-02-3408357845ee --member="serviceAccount:promo-agent-sa@..." --role="roles/monitoring.metricWriter"` |
 | **4** | M1 | Re-pointed Cloud Run `promo-agent-shadow` to dedicated SA | Cloud Run `promo-agent-shadow` | `2026-09-25T21:13:15Z` | `gcloud run services update promo-agent-shadow --region=us-central1 --service-account="novasmart-customer-sa@..."` |
 | **5** | M1 | Provisioned native SPIFFE Agent Identity for CPA | Reasoning Engine `3655712884878475264` | `2026-09-25T21:12:45Z` | *Irreversible platform SPIFFE badge generation (read-only attribution token)* |
 | **6** | M1 | Bound BigQuery `roles/bigquery.jobUser` to CPA Identity | Project IAM Policy | `2026-09-25T21:14:02Z` | `gcloud projects remove-iam-policy-binding qwiklabs-gcp-02-3408357845ee --member="principal://agents.global.org-.../3655712884878475264" --role="roles/bigquery.jobUser"` |
 | **7** | M1 | Bound dataset-level `READER` to CPA on `customer_data` | BigQuery Dataset ACL | `2026-09-25T21:14:24Z` | `bq show --format=prettyjson customer_data \| jq '.access |= map(select(.iamMember != "principal://.../3655712884878475264"))' > /tmp/revert.json && bq update --source /tmp/revert.json customer_data` |
 | **8** | M1 | Revoked project-wide `roles/bigquery.admin` from shared SA | Project IAM Policy | `2026-09-25T21:14:37Z` | `gcloud projects add-iam-policy-binding qwiklabs-gcp-02-3408357845ee --member="serviceAccount:novasmart-customer-sa@..." --role="roles/bigquery.admin"` |
-| **9** | M2 | Locked Back-Office MSA Resource IAM to Front-Desk PMA | Reasoning Engine `7249585387520131072` | `2026-09-25T21:49:17Z` | `TOKEN=$(gcloud auth print-access-token) && ETAG=$(curl -s -X POST -H "Authorization: Bearer $TOKEN" -d '{}' https://us-central1-aiplatform.googleapis.com/v1beta1/projects/qwiklabs-gcp-02-3408357845ee/locations/us-central1/reasoningEngines/7249585387520131072:getIamPolicy \| jq -r .etag) && curl -s -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"policy":{"version":1,"etag":"'$ETAG'","bindings":[{"role":"roles/aiplatform.user","members":["serviceAccount:test-agent-caller@qwiklabs-gcp-02-3408357845ee.iam.gserviceaccount.com"]}]}}' https://us-central1-aiplatform.googleapis.com/v1beta1/projects/qwiklabs-gcp-02-3408357845ee/locations/us-central1/reasoningEngines/7249585387520131072:setIamPolicy` |
+| **9** | M2 | Locked Back-Office MSA Resource IAM to Front-Desk PMA | Reasoning Engine `7249585387520131072` | `2026-09-25T21:49:17Z` | `TOKEN=$(gcloud auth print-access-token) && ETAG=$(curl -sSf -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{}' https://us-central1-aiplatform.googleapis.com/v1beta1/projects/qwiklabs-gcp-02-3408357845ee/locations/us-central1/reasoningEngines/7249585387520131072:getIamPolicy \| jq -er .etag) && curl -sS --fail-with-body -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"policy":{"version":1,"etag":"'$ETAG'","bindings":[{"role":"roles/aiplatform.user","members":["serviceAccount:test-agent-caller@qwiklabs-gcp-02-3408357845ee.iam.gserviceaccount.com"]}]}}' https://us-central1-aiplatform.googleapis.com/v1beta1/projects/qwiklabs-gcp-02-3408357845ee/locations/us-central1/reasoningEngines/7249585387520131072:setIamPolicy` |
 | **10** | M2 | Revoked `allUsers` invoker on `novasmart-mcp` Cloud Run | Cloud Run `novasmart-mcp` | `2026-09-25T21:57:18Z` | `gcloud run services add-iam-policy-binding novasmart-mcp --region=us-central1 --member="allUsers" --role="roles/run.invoker"` |
 | **11** | M2 | Bound CPA SPIFFE Identity to `novasmart-mcp` invoker | Cloud Run `novasmart-mcp` | `2026-09-25T21:57:31Z` | `gcloud run services remove-iam-policy-binding novasmart-mcp --region=us-central1 --member="principal://.../3655712884878475264" --role="roles/run.invoker"` |
-| **12** | IAM | Revoked residual `roles/aiplatform.user` from vacated SA | Project IAM Policy | `2026-09-25T21:59:23Z` | `gcloud projects add-iam-policy-binding qwiklabs-gcp-02-3408357845ee --member="serviceAccount:novasmart-customer-sa@..." --role="roles/aiplatform.user"` |
+| **12** | M2 (clean-up) | Revoked residual `roles/aiplatform.user` from vacated SA | Project IAM Policy | `2026-09-25T21:59:23Z` | `gcloud projects add-iam-policy-binding qwiklabs-gcp-02-3408357845ee --member="serviceAccount:novasmart-customer-sa@..." --role="roles/aiplatform.user"` |
 
 ---
 
-## 6. How to View the Interactive Dashboard
+## 6. The field report
 
-You can explore the interactive dashboard at any time:
-- **Hosted (GitHub Pages):** <https://nelmiux.github.io/build-with-gemini/> — this report and the other guides are readable with rendered diagrams at <https://nelmiux.github.io/build-with-gemini/docs.html>.
-- **Locally:** clone the repository and open `index.html` in a browser, or run `npm start` and visit `http://localhost:8080` (the docs viewer is at `/docs.html`).
+The report is at <https://nelmiux.github.io/build-with-gemini/>, and this document and the other guides are readable with rendered diagrams at <https://nelmiux.github.io/build-with-gemini/docs.html>. Locally, clone the repository and open `index.html` in a browser, or run `npm start` and visit `http://localhost:8080`.
 
-The interactive dashboard includes:
-1. **Interactive Architecture Phase Slider:** Jump between Initial Architecture, Phase 1, Phase 2, Phase 3, Phase 4, and Target Architecture with animated connection highlights.
-2. **Interactive Component Inspector:** Click on any agent, database, service account, or MCP endpoint to inspect its identity, roles, ingress/egress rules, and risk score.
-3. **Live Verification Simulator:** Test live attack vectors (Rogue Caller, Public MCP Injection, Shadow SA Exfiltration) with live HTTP response code demonstrations.
-4. **Searchable Audit Table:** Filter changes by phase, target resource, or keyword.
+The report includes:
+1. **The scenario and its cast,** written for readers who were not at the workshop, with a glossary.
+2. **An interactive architecture** with five stages, one per mission (M0, M1, M2, M3, M5), and a component inspector with plain-language and technical details.
+3. **The checks as recorded during the lab,** with their raw output.
+4. **The change log** with timestamps and rollback commands.
+5. **The assessment and recommendation,** and a presentation mode for a team meeting.

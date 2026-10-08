@@ -1,6 +1,10 @@
 # Comprehensive Program Assessment & Enterprise Recommendation
 ## Google Cloud "Build with Gemini" Agent Platform Track (M0–M5)
 
+> [!NOTE]
+> **Earlier draft, kept for reference.** The current assessment, recommendation and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). Some figures below were not measured in the lab (the percentages in sections 1 and 2, including the 18%→94% posture score and the 99.9% blast-radius figure, the compliance claims, and the 15–25 ms latency estimate in the FAQ), and mission M4 was not available at the workshop: the Module 4 items describe my own note, not lab work.
+
+
 **Author:** Head of AI Platform & Security  
 **Target Audience:** Enterprise Architecture Review Board, Chief Information Security Officer (CISO), Platform Engineering & Data Leadership  
 **Project Context:** NovaSmart Retail Multi-Agent Architecture (Google Cloud `us-central1`)  

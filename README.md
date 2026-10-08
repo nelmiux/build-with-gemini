@@ -1,35 +1,33 @@
-# NovaSmart AI Governance & Security Architecture Blueprint
+# Governing AI agents · Build with Gemini field report
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/nelmiux/build-with-gemini/blob/main/LICENSE)
 [![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Vertex%20AI%20%7C%20Model%20Armor-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com)
-[![Status](https://img.shields.io/badge/Security%20Posture-Hardened%20(94%25)-success)]()
 [![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-10b981?logo=github&logoColor=white)](https://nelmiux.github.io/build-with-gemini/)
 [![Deploy](https://github.com/nelmiux/build-with-gemini/actions/workflows/pages.yml/badge.svg)](https://github.com/nelmiux/build-with-gemini/actions/workflows/pages.yml)
 
-Comprehensive architecture documentation, interactive visualization app, and verified governance controls developed during the **Google Cloud Build with Gemini Platform Track (M0, M1, M2, M3, M4, M5)**.
+A field report from Google Cloud's hands-on **Build with Gemini** workshop (Sunnyvale, California, September 25, 2026 — Track 2, *Platform Builders*): the governance of a fictional retailer's AI agents taken from an ungoverned baseline to a verified, least-privilege architecture (one customer-facing agent screened; see the report's limits), with the author's assessment and recommendation for adopting the approach. Written so that colleagues who were not at the workshop can follow it.
 
-> 🌐 **Live site:** **[nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/)** — the interactive architecture app · **[Documentation & diagrams viewer](https://nelmiux.github.io/build-with-gemini/docs.html)** — every guide below with its Mermaid diagrams rendered in the browser.
+> **Live site:** **[nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/)** — the report with the interactive before/after architecture and a presentation mode (`#present`) · **[Documentation & diagrams viewer](https://nelmiux.github.io/build-with-gemini/docs.html)** — every guide below with its Mermaid diagrams rendered in the browser.
 
 ---
 
 
 > [!IMPORTANT]
-> **Executive Briefing & Enterprise Recommendation Available**:
-> - 📄 **[Comprehensive Assessment & Recommendation Report](ASSESSMENT_AND_RECOMMENDATIONS.md)**: Quantitative ROI, traditional vs AI security comparison, CISO FAQ, and 90-day implementation roadmap.
-> - 📊 **[Executive Briefing Deck](EXECUTIVE_SUMMARY.md)**: Ready-to-present slides for engineering teams, architecture review boards, and security leaders.
-> - 🏛️ **[Full Architecture Evolution Report](docs/ARCHITECTURE_EVOLUTION_REPORT.md)**: Deep architectural report with 6 Mermaid diagrams and phase-by-phase transformation breakdown.
+> **Start with the report:** [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/) holds the current assessment, recommendation and presentation.
+> - **[Full Architecture Evolution Report](docs/ARCHITECTURE_EVOLUTION_REPORT.md)**: Deep architectural report with 6 Mermaid diagrams and phase-by-phase transformation breakdown.
+> - [Assessment & Recommendation](ASSESSMENT_AND_RECOMMENDATIONS.md) and [Executive Briefing](EXECUTIVE_SUMMARY.md) are earlier drafts, kept for reference; the report supersedes them.
 
 ## 🌟 Executive Overview & Purpose
 
-This repository provides an enterprise blueprint for securing **autonomous multi-agent AI systems** deployed on Google Cloud. 
+This repository documents a hands-on lab on governing **multi-agent AI systems** on Google Cloud, and what the author recommends taking from it.
 
-Using the real-world **NovaSmart** retail enterprise estate as a baseline, this project documents the progressive hardening of Vertex AI Reasoning Engines, Cloud Run microservices, BigQuery data stores, and Model Armor content firewalls from an initial vulnerable state (M0) to an enterprise-grade Zero-Trust architecture.
+Using the lab's fictional **NovaSmart** retail estate as a baseline, this project documents the progressive hardening of Vertex AI Reasoning Engines, Cloud Run microservices, BigQuery data stores, and Model Armor content firewalls from an initial vulnerable state (M0) to a verified, least-privilege baseline (one customer-facing agent screened; see the report's limits).
 
 ### What is Included:
-- **Interactive Web Application (`index.html`)**: Interactive architecture explorer, stage stepper, dynamic SVG network routing, before/after diffs, live attack simulator, and executive presentation deck.
+- **The report (`index.html`)**: a single page that explains the workshop to a first-time reader — the scenario and its cast, the five missions that were available (M4 was announced but not part of the lab yet), an interactive architecture that steps through five stages, one per mission, from the ungoverned baseline to the verified estate, the live test results as recorded, the change log with rollback commands, the assessment and recommendation, and a presentation mode for a team meeting.
 - **Documentation Viewer (`docs.html`)**: Renders every Markdown guide in this repository in the browser, with the Mermaid diagrams drawn live (expand, zoom, download as SVG, view source), a table of contents, and previous/next navigation.
-- **Deep Technical Documentation (`docs/`)**: Step-by-step guides for M0 (Discovery), M1 (Identity/Data), M2 (Inter-Agent IAM), M3 (Model Armor), M4 (Tool Leaks), and M5 (Evaluation).
-- **Executive Summary (`EXECUTIVE_SUMMARY.md`)**: Ready-to-present briefing for engineering teams, CISOs, and enterprise architects with business ROI and recommendations.
+- **Deep Technical Documentation (`docs/`)**: Step-by-step records for M0 (Discovery), M1 (Identity/Data), M2 (Inter-Agent IAM), M3 (Model Armor) and M5 (Evaluation), plus an author's note on tool-call inspection filed as M4 (the lab's M4 was not available).
+- **Earlier drafts (`EXECUTIVE_SUMMARY.md`, `ASSESSMENT_AND_RECOMMENDATIONS.md`)**: the first written briefing and assessment, kept for reference; the report page supersedes them.
 - **Master Audit Ledger (`docs/AUDIT_LEDGER.md`)**: Verifiable 12-item record of applied changes and rollback CLI commands.
 
 ---
@@ -65,7 +63,7 @@ flowchart TD
 
     subgraph DataTier ["6. Data Layer (BigQuery)"]
         BQ_Customer["BigQuery Dataset: customer_data<br/>Table: customers (20 rows)<br/>ACL: READER -> CPA SPIFFE Only"]
-        BQ_Protected["All Other BigQuery Datasets<br/>(Zero Admin Rights / Completely Isolated)"]
+        BQ_Protected["All Other BigQuery Datasets<br/>(No admin rights from the shared login)"]
     end
 
     StoreAssociate ==>|Chat Ingress| ModelArmorGW
@@ -87,10 +85,10 @@ flowchart TD
 
 The easiest way to explore the project is the hosted site: **<https://nelmiux.github.io/build-with-gemini/>** (app) and **<https://nelmiux.github.io/build-with-gemini/docs.html>** (docs). To run it locally, pick one of the options below.
 
-The interactive architecture application is completely self-contained with **zero external runtime dependencies**.
+The report is a single self-contained HTML file with **no build step and no runtime dependencies** beyond web fonts.
 
 ### Option A: Direct Browser Access
-Simply open `index.html` directly in any modern browser (Chrome, Edge, Firefox, Safari).
+Simply open `index.html` directly in any modern browser (Chrome, Edge, Firefox, Safari). Add `#present` to the URL (or use the *Present* button) for the slide deck.
 
 > **Note:** the documentation viewer (`docs.html`) fetches the Markdown files over HTTP, so it needs one of the web-server options below (browsers block `file://` pages from reading other local files). The app itself works from disk.
 
@@ -121,12 +119,12 @@ Read these online with rendered diagrams in the **[documentation viewer](https:/
 
 | Document | Focus Area | Key Concepts |
 |---|---|---|
-| [**Executive Summary**](EXECUTIVE_SUMMARY.md) | Leadership & Team Presentation | Business ROI, 5-layer model, team verdict, adoption roadmap. |
+| [**Executive Summary**](EXECUTIVE_SUMMARY.md) | Earlier draft (superseded by the report) | First written briefing, kept for reference; its ratings and figures were not measured in the lab. |
 | [**M0: Discovery**](docs/M0_DISCOVERY.md) | Baseline & Situational Awareness | Shadow IT detection, shared identity risks, project admin exposure. |
 | [**M1: Identity & Data**](docs/M1_IDENTITY_DATA.md) | Identity Decoupling & Least Privilege | Agent Registry, dedicated service accounts, SPIFFE badges, BigQuery ACLs. |
 | [**M2: Inter-Agent IAM**](docs/M2_INTER_AGENT_IAM.md) | Agent Perimeters & Tool Security | Vertex AI Reasoning Engine Resource IAM, 403 refusal, Cloud Run lockdown. |
 | [**M3: Content Screening**](docs/M3_CONTENT_SCREENING.md) | Model Armor & Agent Gateway | Prompt injection defense, backdoor override mitigation, floor fallacy. |
-| [**M4: Semantic Governance**](docs/M4_SEMANTIC_GOVERNANCE.md) | Tool Leaks & Exfiltration | Parameterized validation, bulk dump prevention, SQL inspection. |
+| [**M4: Semantic Governance**](docs/M4_SEMANTIC_GOVERNANCE.md) | Author's note (not a lab mission) | Tool-call inspection and bulk-extraction defense; the lab's M4 (CodeMender) was not available. |
 | [**M5: Evaluation**](docs/M5_EVALUATION_DECISION.md) | Quality Flywheel & Certification | Gen AI Evaluation service, LLM judge, scorecard, go-live decision. |
 | [**Master Audit Ledger**](docs/AUDIT_LEDGER.md) | Rollback Matrix & Audit Log | 12 atomic changes with timestamps, resources, and undo commands. |
 
@@ -137,8 +135,8 @@ All architecture diagrams are written in [Mermaid](https://mermaid.js.org/). Run
 ## 🛠️ Verification & Simulation Scripts
 
 In the `scripts/` directory:
-- `scripts/verify_estate.sh`: Audits live Google Cloud reasoning engines, Cloud Run services, BigQuery ACLs, and Agent Registry entries.
-- `scripts/simulate_attacks.sh`: Demonstrates the verified HTTP 403 refusal on rogue callers and HTTP 500 Model Armor prompt blocks.
+- `scripts/verify_estate.sh`: re-checks the M1–M2 controls against the lab project with `gcloud` and `bq`, and fails when a check cannot be confirmed. The temporary lab project has since been deleted, so today it reports that it cannot verify.
+- `scripts/simulate_attacks.sh`: prints the responses recorded during the lab (HTTP 403 for the rogue caller and the public tool, HTTP 200 for the escalation, the Model Armor block). It makes no live calls.
 - `scripts/validate_diagrams.sh`: Renders every Mermaid block in the docs with mermaid-cli and fails on parse errors (`npm run validate:diagrams`).
 - `scripts/build_site.sh`: Assembles the static site served by GitHub Pages into `_site/` (`npm run build`).
 
