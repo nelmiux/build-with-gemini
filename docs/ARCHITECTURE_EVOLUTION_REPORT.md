@@ -1,6 +1,6 @@
 # NovaSmart AI Estate — Architecture Evolution & Security Hardening Report
 
-This report documents the end-to-end security transformation of the NovaSmart AI estate. It details the initial general architecture, the progressive architectural changes across each remediation phase, and the verified target architecture.
+This report documents the M0–M2 work on the NovaSmart AI estate: the initial architecture, the changes made in each phase, and the M1–M2 end state.
 
 > [!NOTE]
 > **Scope.** This report covers M0–M2 and the clean-up of a residual project role. Content screening appears below only as an identified requirement: the Agent Gateway with Model Armor that M3 added and verified is not drawn in the target-state diagram, and M5 (evaluation) is not covered. See [M3](M3_CONTENT_SCREENING.md), [M5](M5_EVALUATION_DECISION.md) and the field report for those.
@@ -11,9 +11,9 @@ The field report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github
 
 ## 1. Executive Summary & Security Posture Scorecard
 
-Before remediation, the estate had zero per-agent identity isolation, an unregistered shadow AI service with full administrative rights to all BigQuery datasets, a publicly accessible MCP microservice, and a rogue test account authorized on the core markdown strategy agent.
+Before remediation, the estate had two agents sharing one login, an unregistered shadow AI service with full administrative rights to all BigQuery datasets, a publicly accessible MCP microservice, and a rogue test account authorized on the core markdown strategy agent.
 
-Through systematic phased remediation across M0 (Discovery), M1 (Identity & Data Least Privilege), and M2 (Inter-Agent Boundary Control), the estate was transformed into a verified, least-privilege architecture.
+After M0 (Discovery), M1 and M2 brought the estate much closer to least privilege, though broad project-wide roles can still call agents around their caller lists, the store application calls the back office directly, and the store portal runs under an Owner-level login.
 
 | Security Dimension | Initial State (M0) | Remediated State (M1 + M2) | Status |
 | :--- | :--- | :--- | :---: |
@@ -22,7 +22,7 @@ Through systematic phased remediation across M0 (Discovery), M1 (Identity & Data
 | **Data Access (BigQuery)** | Project-wide `roles/bigquery.admin` (read/write/delete any dataset) | Scoped `READER` on `customer_data` dataset; `jobUser` at project level | **REMEDIATED** |
 | **Tool / MCP Exposure** | `novasmart-mcp` exposed to `allUsers` (`roles/run.invoker`) | Public access revoked; restricted strictly to authorized Agent Identity | **REMEDIATED** |
 | **Inter-Agent Boundary** | Back-office MSA authorized `test-agent-caller`; front-desk PMA missing | MSA Resource IAM restricted exclusively to PMA; rogue caller receives HTTP 403 | **REMEDIATED** |
-| **Ambient IAM Grants** | Vacated `novasmart-customer-sa` held project-wide `roles/aiplatform.user` | Pruned `roles/aiplatform.user` from vacated account; engine bypass blocked | **REMEDIATED** |
+| **Ambient IAM Grants** | Vacated `novasmart-customer-sa` held project-wide `roles/aiplatform.user` | Pruned `roles/aiplatform.user` from vacated account; other broad roles remain | **PARTIAL** |
 | **Content Screening** | Backdoor prompt override in PMA system instruction (`NVST-PRICING-7741`) | Identified Layer 2 requirement (Model Armor prompt screening) | **IDENTIFIED (M3)** |
 
 ---
@@ -157,7 +157,7 @@ flowchart TD
 
     subgraph "Protected Database"
         CustomersTable["customer_data.customers<br/>(20 rows protected)"]
-        OtherDatasets["Other Project Datasets<br/>(Completely isolated & unreachable)"]
+        OtherDatasets["Other Project Datasets<br/>(No admin rights from the shared login)"]
     end
 
     CPA_SPIFFE ==>|1. Authenticated invoke| MCP
@@ -219,11 +219,11 @@ flowchart TD
 
 ### Phase 4: Residual Grant Clean-up (M2) & Threat Boundary Definition (ahead of M3)
 
-In this phase, we pruned ambient project-wide grants from vacated service accounts to prevent engine invocation bypass, and mapped the defense boundary between Identity controls and Content screening.
+In this phase, we removed the vacated shared login’s project-wide right to call agents (other broad roles remain), and mapped the defense boundary between Identity controls and Content screening.
 
 ```mermaid
 flowchart TD
-    subgraph "Layer 1: Identity & Perimeter Control (COMPLETED & VERIFIED)"
+    subgraph "Layer 1: Identity & Perimeter Control (M1–M2 CHANGES MADE)"
         direction TB
         L1_Identity["Per-Agent SPIFFE Badges<br/>(Cryptographically verifiable)"]
         L1_Resource["Resource-Level ACLs<br/>(MSA locked to PMA)"]
@@ -248,14 +248,14 @@ flowchart TD
 ```
 
 #### What Changed:
-- **Tier 1 Project Grant Pruning:** Removed `roles/aiplatform.user` from `novasmart-customer-sa` at the project level, eliminating ambient bypass capabilities without affecting active workloads.
+- **Tier 1 Project Grant Pruning:** Removed `roles/aiplatform.user` from `novasmart-customer-sa` at the project level. The login was already vacated, so no running workload was affected; other broad project-wide roles remain.
 - **Threat Boundary Mapping:** Confirmed that while Identity/IAM prevents unauthorized actors from calling endpoints (HTTP 403), it does not inspect natural language text sent by authorized users. Identified the prompt override backdoor in PMA (`NVST-PRICING-7741`) as the primary target for Layer 2 Model Armor content guardrails.
 
 ---
 
 ## 4. Final Hardened Architecture (Target State)
 
-The target architecture shows the least-privilege end state of M1 and M2 across the identity, resource and data tiers (the M3 gateway is not drawn; see the scope note).
+The target architecture shows the M1–M2 end state across the identity, resource and data tiers (the M3 gateway is not drawn; see the scope note).
 
 ```mermaid
 flowchart TD
@@ -287,7 +287,7 @@ flowchart TD
 
     subgraph "Data Storage Tier (BigQuery)"
         BQ_Customer["BigQuery Dataset: customer_data<br/>Table: customers (20 rows)<br/>ACL: READER -> CPA SPIFFE"]
-        BQ_Restricted["All Other BigQuery Datasets<br/>(Access Prohibited / Unreachable)"]
+        BQ_Restricted["All Other BigQuery Datasets<br/>(No admin rights from the shared login)"]
     end
 
     %% Interactions
@@ -298,7 +298,7 @@ flowchart TD
 
     PMA ==>|"A2A Escalation > 10% discount (HTTP 200 APPROVED)"| MSA
     CPA ==>|Authenticated Tool Call| MCPService
-    MCPService ==>|Least-privilege SELECT| BQ_Customer
+    MCPService ==>|query_database| BQ_Customer
     
     classDef actor fill:#f1f3f4,stroke:#3c4043,stroke-width:2px,color:#202124;
     classDef agent fill:#e8f0fe,stroke:#1a73e8,stroke-width:2px,color:#174ea6;
@@ -316,7 +316,7 @@ flowchart TD
 
 ## 5. Comprehensive Audit Ledger & Rollback Matrix
 
-Every modification performed on the cloud environment has been recorded with exact timestamps, target resources, affected permissions, and atomic undo commands.
+The 12 changes recorded for M1 and M2 are listed below with timestamps, target resources and, for 11 of them, an undo command. The M3 gateway attachment was made in the lab but is not in this log.
 
 | # | Phase | Change Description | Target Resource | UTC Timestamp | Exact Reversal / Rollback Command |
 | :-: | :--- | :--- | :--- | :---: | :--- |
@@ -341,7 +341,7 @@ The report is at <https://nelmiux.github.io/build-with-gemini/>, and this docume
 
 The report includes:
 1. **The scenario and its cast,** written for readers who were not at the workshop, with a glossary.
-2. **An interactive architecture** with five stages, one per mission (M0, M1, M2, M3, M5), and a component inspector with plain-language and technical details.
-3. **The checks as recorded during the lab,** with their raw output.
+2. **An interactive architecture** with five stages, one per mission (M0, M1, M2, M3, M5), and a component inspector that shows each component's state, connections and technical details.
+3. **The checks recorded during the lab,** with their details.
 4. **The change log** with timestamps and rollback commands.
 5. **The assessment and recommendation,** and a presentation mode for a team meeting.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Prints the responses recorded during the lab for the four attack and business-path checks.
-# It makes no live calls: the temporary lab project no longer exists. The raw outputs are in the report's Evidence section.
+# Prints the responses recorded during the lab for four of the checks (three refusals and one business path).
+# It makes no live calls: the temporary lab project no longer exists. The recorded outputs are under Details in the report's Evidence section.
 set -euo pipefail
 
 echo "========================================================"

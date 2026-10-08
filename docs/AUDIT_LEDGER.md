@@ -1,6 +1,6 @@
 # Master Audit Ledger & Rollback Matrix
 
-Every modification recorded for M1 and M2 is listed here with resource paths, UTC timestamps and rollback commands. Identities are shortened in this table; the report's change log has the complete, copyable commands. The M3 gateway attachment was made in the lab but is not in this log.
+Every modification recorded for M1 and M2 is listed here with its target resource, UTC timestamp and, for 11 of the 12, a rollback command. Identities are shortened in this table; the report's change log has the complete, copyable commands. The M3 gateway attachment was made in the lab but is not in this log.
 
 ---
 

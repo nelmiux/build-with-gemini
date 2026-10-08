@@ -1,7 +1,7 @@
 {
   "name": "build-with-gemini-novasmart",
   "version": "1.0.0",
-  "description": "NovaSmart AI Agent Governance & Architecture Blueprint (M0-M5) - Google Cloud Build with Gemini Track 2",
+  "description": "Field report from Google Cloud Build with Gemini (Track 2): governing NovaSmart's AI agents, M0-M3 and M5",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

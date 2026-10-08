@@ -61,7 +61,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`\n🚀 NovaSmart AI Governance Dashboard App is running at:`);
+  console.log(`\n🚀 Governing AI agents field report is running at:`);
   console.log(`   ➜ App:  http://localhost:${PORT}`);
   console.log(`   ➜ Docs: http://localhost:${PORT}/docs.html`);
   console.log(`   (bound to ${HOST}; set HOST=0.0.0.0 to allow other devices on your network)\n`);
