@@ -1,7 +1,7 @@
 # Executive Briefing & Work Team Recommendation
 
 > [!NOTE]
-> **Earlier draft, kept for reference.** The current assessment, recommendation and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). Mission M4 was not available at the workshop: the M4 section below describes my own note on tool-call inspection, not work performed in the lab.
+> **Earlier draft, kept for reference.** The current assessment, recommendation and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). The report rates the workshop 9 out of 10, not the 10 / 10 below, and offers the five controls as a recommendation, not a mandatory baseline. Mission M4 was not available at the workshop: the M4 section below describes my own note on tool-call inspection, not work performed in the lab.
 
 ## Purpose of this Document
 This document is designed for the user to present directly to their engineering team, architecture board, and CISO / Security leadership at work. It synthesizes the technical, architectural, and operational outcomes from the **Google Cloud "Build with Gemini" Agent Platform Track (M0–M5)**.

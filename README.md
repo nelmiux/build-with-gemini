@@ -5,7 +5,7 @@
 [![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-10b981?logo=github&logoColor=white)](https://nelmiux.github.io/build-with-gemini/)
 [![Deploy](https://github.com/nelmiux/build-with-gemini/actions/workflows/pages.yml/badge.svg)](https://github.com/nelmiux/build-with-gemini/actions/workflows/pages.yml)
 
-A field report from Google Cloud's hands-on **Build with Gemini** workshop (Sunnyvale, California, September 25, 2026 — Track 2, *Platform Builders*): how a fictional retailer's AI agents went from a poorly governed baseline to much tighter controls, with the connection and screening controls tested live (one customer-facing agent screened, and the screen fails open; some broad project-wide roles left; see the report's limits), plus the author's assessment and recommendation for adopting the approach. Written so that colleagues who were not at the workshop can follow it.
+A field report from Google Cloud's hands-on **Build with Gemini** workshop (Sunnyvale, California, September 25, 2026 — Track 2, *Platform Builders*): how a fictional retailer's AI agents went from a poorly governed baseline to much tighter controls, with the connection and screening controls tested live (one customer-facing agent screened, and the screen fails open; some broad project-wide roles left; see the report's limits), plus the author's assessment of how it applies to Gemini Enterprise work. Written so that colleagues who were not at the workshop can follow it.
 
 > **Live site:** **[nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/)** — the report with the interactive before/after architecture and a presentation mode (`#present`) · **[Documentation & diagrams viewer](https://nelmiux.github.io/build-with-gemini/docs.html)** — every guide below with its Mermaid diagrams rendered in the browser.
 
@@ -15,7 +15,7 @@ A field report from Google Cloud's hands-on **Build with Gemini** workshop (Sunn
 > [!IMPORTANT]
 > **Start with the report:** [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/) holds the current assessment, recommendation and presentation.
 > - **[Architecture Evolution Report](docs/ARCHITECTURE_EVOLUTION_REPORT.md)**: M0–M2 phase by phase, with 6 Mermaid diagrams (M3 and M5 are in their own records).
-> - [Assessment & Recommendation](ASSESSMENT_AND_RECOMMENDATIONS.md) and [Executive Briefing](EXECUTIVE_SUMMARY.md) are earlier drafts, kept for reference; the report supersedes them, and some figures in the assessment draft were not measured in the lab.
+> - [Assessment & Recommendation](ASSESSMENT_AND_RECOMMENDATIONS.md) and [Executive Briefing](EXECUTIVE_SUMMARY.md) are earlier drafts, kept for reference; the report supersedes them, including their 10 / 10 rating and adoption mandate, and some figures in the assessment draft were not measured in the lab.
 
 ## 🌟 Executive Overview & Purpose
 

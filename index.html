@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Governing AI agents — Build with Gemini field report</title>
-  <meta name="description" content="What was done in the hands-on Google Cloud Build with Gemini workshop (Track 2, Platform Builders): the controls added to a fictional retailer’s AI agents, what was tested and what stays open, with an assessment and recommendation for adopting the approach.">
+  <meta name="description" content="What was done in the hands-on Google Cloud Build with Gemini workshop (Track 2, Platform Builders): the controls added to a fictional retailer’s AI agents, what was tested and what stays open, with an assessment of how it applies to Gemini Enterprise work.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2720%27 fill=%27%231d4ed8%27/%3E%3Cpath d=%27M50 18 L78 30 V52 C78 68 66 80 50 86 C34 80 22 68 22 52 V30 Z%27 fill=%27none%27 stroke=%27white%27 stroke-width=%277%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -268,8 +268,7 @@
     #controls-table th[scope="row"], #controls-table td { border-bottom: 1px solid var(--border); }
     #controls-table tr:last-child > * { border-bottom: 0; }
     #controls-table .gate-num { display: inline-flex; width: 22px; height: 22px; margin-right: 8px; border-radius: 50%; align-items: center; justify-content: center; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 700; }
-    #controls-table .gate-when { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); }
-    #controls-table td ul { margin: 6px 0 0 16px; }
+    #controls-table td ul { margin: 0 0 0 16px; }
     #controls-table td li + li { margin-top: 4px; }
     #controls-table tr:target > * { background: var(--accent-soft); }
     .after-table { margin-top: 14px; max-width: 40em; }
@@ -467,7 +466,7 @@
           <h1>What it takes to run AI agents safely, shown on a working system</h1>
           <p class="byline">By <a href="https://github.com/nelmiux" rel="noopener" target="_blank">Nelma Perera</a> · October 2026</p>
           <p class="lead">On September 25, 2026 I attended Google Cloud’s hands-on <em>Build with Gemini</em> workshop in Sunnyvale, California (Track 2, Platform Builders). In a three-hour lab on a live Google Cloud project I played the Head of AI Platform &amp; Security of <strong>NovaSmart</strong>, a fictional electronics retailer whose AI agents had governance problems, and worked through them one control at a time. In the end, the fixes held where they were tested, and the legitimate requests tested alongside them still went through.</p>
-          <p class="lead">Before we deploy our next agent, we have to decide what “production ready” means; this report is written for that decision.</p>
+          <p class="lead">Governance and security are the questions I work through in my Gemini Enterprise work, and many teams here face the same ones as they take agents from prototype to production. This report shares what carries over.</p>
           <div class="actions">
             <a class="btn primary" href="#architecture">See the before and after</a>
             <a class="btn" href="#present">Open the presentation</a>
@@ -476,7 +475,7 @@
         </div>
         <aside class="verdict" aria-labelledby="verdict-title">
           <div class="eyebrow">My verdict</div>
-          <h2 id="verdict-title">Very useful, 10 out of 10. Adopt its five controls as our baseline before any agent reaches production.</h2>
+          <h2 id="verdict-title">Very useful, 9 out of 10. Its five controls apply to the Gemini Enterprise agents we build.</h2>
           <ol id="verdict-controls"></ol>
         </aside>
       </div>
@@ -506,7 +505,7 @@
         <div class="eyebrow">2 · Before and after</div>
         <h2>What each mission found and did</h2>
         <div class="intro">
-          <p>Each stage below is one lab mission; select one, then any box for its details. I directed an AI assistant in plain English, and it carried out the cloud operations and reported back. The lab’s rule: look before changing anything, make the change, then prove it with recorded evidence, such as the reply itself or a log line. M4 is missing because it was not available on the day; in the guide it is CodeMender, an AI code-security agent in Public Preview.</p>
+          <p>Each stage below is one lab mission; select one, then any box for its details. I directed an AI assistant in plain English, and it carried out the cloud operations and reported back. The lab’s rule: look before changing anything, make the change, then prove it with recorded evidence, such as the reply itself or a log line. M4 is missing because it was not part of the lab yet; more under Limits.</p>
         </div>
         <div class="arch" id="arch-main"></div>
         <div class="print-after" id="print-after" hidden aria-hidden="true">
@@ -558,7 +557,7 @@
     <section class="block" id="recommendation">
       <div class="wrap">
         <div class="eyebrow">4 · Assessment and recommendation</div>
-        <h2>Was it useful, and what should we do with it?</h2>
+        <h2>Was it useful, and where does it apply?</h2>
 
         <div class="assess">
           <div class="card">
@@ -573,40 +572,35 @@
             <h3>Limits to keep in mind</h3>
             <ul>
               <li><strong>It is a lab.</strong> A small, temporary project with a handful of agents. Our own systems have more owners, more legacy identities and more data classifications.</li>
-              <li><strong>Running costs were not measured.</strong> The gateway and screening add components to run and pay for.</li>
+              <li><strong>Two things were not ideal.</strong> The code-security mission, M4, was not part of the lab yet; in the guide it is CodeMender, an AI code-security agent in Public Preview. Cost, one of the trade-offs the session set out to cover, got no numbers, even though the gateway and screening add components to run and pay for.</li>
               <li><strong>A control that is on is not a control that is effective.</strong> The screening covers one agent, the front desk, and by design it fails open: if the screening service cannot run, messages pass. Monitoring has to read each control’s own log; the lab warns that a refused agent can still answer in confident prose.</li>
               <li><strong>Some access remains, and the override code stays.</strong> Identities with broad project-wide roles can still call agents around their caller lists, and the lab lists pruning them as follow-up work. The lab also points out two routes no caller list closes: the store application calls the back office directly from its code, and the store portal reads customer records under an Owner-level login. Nothing in my notes removes the override code from the front desk’s instructions, so only the screening stands in its way.</li>
               <li><strong>The evaluation was small.</strong> The lab’s method continues with a larger generated set, which my notes do not cover.</li>
             </ul>
           </div>
         </div>
-        <p class="aside-note" id="also-mentioned"><strong>Also mentioned at the workshop:</strong> Jev, from TypeSafe AI. It was not part of the lab, but one of the Google presenters spoke well of using it. <a href="https://docs.typesafe.ai/" rel="noopener" target="_blank">TypeSafe describes it</a> as a model that answers typed questions about an application’s state with calibrated probabilities instead of writing text, for decisions that code acts on, such as routing and scoring. We have not evaluated it.</p>
 
         <hr class="rule">
         <div class="callout" id="next-week">
-          <h3>If we do one thing next week</h3>
-          <p>Run our own inventory, like the lab’s first mission: list every agent and agent-like service we run, which identity each one acts under, and who has read our most sensitive dataset in the last 30 days. A first pass on our most sensitive project is small, changes nothing, and shows how far we are from the five controls.</p>
-          <ul>
-            <li>Before anything else, confirm that data-access audit logging is on wherever sensitive data lives; outside BigQuery it is off unless an administrator turns it on.</li>
-            <li>Owner: platform team, with security reviewing the access list.</li>
-            <li>Deliverable: a one-page register and a list of shared or unowned identities.</li>
-          </ul>
+          <h3>The easiest part to reuse</h3>
+          <p>The lab’s first mission works on other projects too: an inventory of every agent and agent-like service, the identity each one acts under, and who has read the most sensitive data in the last 30 days. It changes nothing and shows where a project stands.</p>
+          <p>The read history relies on data-access audit logging, so it is worth checking first: outside BigQuery it is off unless an administrator turns it on.</p>
         </div>
 
         <hr class="rule">
-        <span id="roadmap"></span><h3 id="controls">Recommendation: five controls, and a 90-day path to them</h3>
-        <p class="rule-lead">The baseline covers any agent that holds credentials or talks to customers. Each control is one we can verify, not a policy statement.</p>
+        <span id="roadmap"></span><h3 id="controls">My recommendation: five controls that carry over</h3>
+        <p class="rule-lead">They apply to any agent that holds credentials or talks to customers, and each one can be checked rather than just written down. For teams doing the same work, they may be a useful cross-check against what is already in place.</p>
         <div class="table-wrap" id="gates">
           <table id="controls-table">
-            <thead><tr><th scope="col">Control</th><th scope="col">What must be true</th><th scope="col">When, and first steps</th></tr></thead>
+            <thead><tr><th scope="col">Control</th><th scope="col">What it means</th><th scope="col">Signs it is in place</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
-        <p class="after-table"><strong>Pilot:</strong> after next week’s inventory, take one customer-facing agent through all five controls, with a scenario set of at least a few dozen cases.</p>
 
         <hr class="rule">
         <h3>Questions people asked at the workshop</h3>
         <div id="faq"></div>
+        <p class="aside-note" id="also-mentioned"><strong>Also at the workshop:</strong> one of the Google presenters spoke well of TypeSafe AI’s Jev, which was not part of the lab. <a href="https://docs.typesafe.ai/" rel="noopener" target="_blank">TypeSafe describes Jev</a> as a model that answers typed questions about an application’s state with calibrated probabilities instead of writing text, for decisions that code acts on, such as routing and scoring. We have not evaluated it. The day closed with demos of projects of our choice; I showed <a href="https://github.com/nelmiux/AetherIaI" rel="noopener" target="_blank">AetherIaI</a>, a prototype that turns infrastructure intent into Terraform, and it was among the ten winners.</p>
       </div>
     </section>
 
@@ -860,26 +854,26 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
   ];
 
   const GATES = [
-    { t: 'Every agent catalogued, with an owner', when: 'Weeks 1–3',
-      p: 'Tool services and runtimes are catalogued too, each with a named business owner. Unregistered means not allowed to run.',
-      items: ['Extend next week’s inventory to every project, recording owner, identity and data reached.', 'Stand up a central registry.'] },
-    { t: 'Each agent on its own identity', when: 'Weeks 4–6',
+    { t: 'Every agent catalogued, with an owner',
+      p: 'Tool services and runtimes are catalogued too, each with a named business owner, and the catalog is checked against what actually runs.',
+      items: ['An inventory of agents, agent-like services and tool endpoints, with owner, identity and data reached.', 'A central registry that stays current.'] },
+    { t: 'Each agent on its own identity',
       p: 'No shared service accounts, so the audit log attributes every action to one agent.',
-      items: ['Retire the shared and unowned identities on the inventory’s list.', 'Cut data rights to dataset level, read-only where possible.'] },
-    { t: 'Sensitive agents name who may call them', when: 'Weeks 4–6',
+      items: ['Shared and unowned identities retired.', 'Data rights at dataset level, read-only where possible.'] },
+    { t: 'Sensitive agents name who may call them',
       p: 'Tool services too: the list lives on the agent or service itself. Anyone else is refused (HTTP 403), and both the refusal and the legitimate path are tested.',
-      items: ['Find every project-wide role that can call agents, check who really needs it, and remove the rest.'] },
-    { t: 'Customer messages screened before the model sees them', when: 'Weeks 7–9',
+      items: ['Project-wide roles that can call agents reviewed, and the unneeded ones removed.'] },
+    { t: 'Customer messages screened before the model sees them',
       p: 'Customer-facing agents sit behind a gateway that inspects messages for manipulation, scoped so that legitimate traffic is unaffected.',
-      items: ['Check which of our customer-facing agents a gateway can front; in the lab, agents on a different protocol could not go behind it.', 'Measure added latency and false refusals with our own attack set.', 'At each tool, check what agents ask for, to catch bulk exports of customer records.'] },
-    { t: 'Behaviour scored against policy before release', when: 'Weeks 10–12',
+      items: ['Gateway coverage checked: in the lab, agents on a different protocol could not go behind it.', 'Added latency and false refusals measured on legitimate traffic, and blocking checked against our own attack set.', 'Tool calls checked for bulk exports of customer records.'] },
+    { t: 'Behaviour scored against policy before release',
       p: 'The scenario set runs in the release pipeline and is scored; failures and near-misses are reviewed before a go decision.',
-      items: ['Write the scenario set: expected passes, refusals and edge cases.'] },
+      items: ['A scenario set of expected passes, refusals and edge cases, broader than the lab’s four cases.'] },
   ];
 
   const FAQ = [
     ['Why can’t we just rely on prompt instructions like “Never disclose discount codes”?', 'Instructions are text the model reads alongside the attacker’s text, as the override test showed (see Evidence). Boundaries have to live outside the model: in identity, in access lists, at the gateway and in the database permissions. Instructions remain useful; they are just not a control.'],
-    ['Does adding an Agent Gateway with Model Armor introduce latency?', 'It was not measured, so we do not know yet; measuring it is a first step in weeks 7–9 of the plan.'],
+    ['Does adding an Agent Gateway with Model Armor introduce latency?', 'It was not measured in the lab, so we do not know yet; it is one of the checks listed under control 4.'],
     ['What tools from this lab should we install immediately?', 'Nothing needs installing: they are managed services. In the order of the five controls: Agent Registry; Agent Runtime, for a platform-issued identity per agent; caller allow-lists, a setting on each agent rather than a product; Agent Gateway with Model Armor; and the Gen AI evaluation service.'],
   ];
 
@@ -1269,8 +1263,8 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
   $('#controls-table tbody').innerHTML = GATES.map((g, i) => `
     <tr class="gate" id="control-${i + 1}">
       <th scope="row"><span class="gate-num" aria-hidden="true">${i + 1}</span>${esc(g.t)}</th>
-      <td data-label="What must be true">${esc(g.p)}</td>
-      <td data-label="When, and first steps"><span class="gate-when">${esc(g.when)}</span>${g.items.length ? `<ul>${g.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}</td>
+      <td data-label="What it means">${esc(g.p)}</td>
+      <td data-label="Signs it is in place"><ul>${g.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul></td>
     </tr>`).join('');
   $('#faq').innerHTML = FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="body"><p>${esc(a).replace('(see Evidence)', '(see <a href="#evidence">Evidence</a>)')}</p></div></details>`).join('');
 
@@ -1314,17 +1308,18 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
      ========================================================= */
   const SLIDES = [
     { kind: 'title', eyebrow: 'Field report · Google Cloud “Build with Gemini”, Track 2 · Sunnyvale, September 25, 2026', title: 'Governing AI agents in production',
-      html: `<p>What a hands-on lab taught about running AI agents safely, and what I recommend we take from it.</p>
+      html: `<p>What a hands-on lab taught about running AI agents safely, and how it applies to our Gemini Enterprise work.</p>
         <p class="footer-note">By Nelma Perera.</p>` },
     { title: 'Why this matters to us', html: `<ul>
         <li><strong>Agents hold credentials and act.</strong> They query databases, call services and talk to other agents, not just chat.</li>
         <li><strong>A message can be an attack.</strong> An attacker needs no exploit; a message that looks like an instruction can be enough.</li>
-        <li><strong>We will deploy more agents.</strong> Before the next one, we have to decide what “production ready” means.</li></ul>` },
+        <li><strong>It is our day-to-day work.</strong> Many teams here build Gemini Enterprise agents and face the same questions.</li></ul>` },
     { title: 'How the workshop worked', html: `<ul>
         <li><strong>Three hours, hands-on,</strong> on a live Google Cloud project.</li>
         <li><strong>NovaSmart, a fictional retailer:</strong> a front-desk Price Match Agent settles discounts up to 10% and escalates bigger ones to a back-office Markdown Strategy Agent; also a personalization agent, a promo agent, a customer database and a database tool.</li>
         <li><strong>I directed an AI assistant in plain English;</strong> it carried out each change and came back with evidence.</li>
-        <li><strong>Five missions:</strong> M0 See everything · M1 Take action · M2 Control the connections · M3 Protect the content · M5 Evaluate and decide. M4 was not available.</li></ul>` },
+        <li><strong>Five missions:</strong> M0 See everything · M1 Take action · M2 Control the connections · M3 Protect the content · M5 Evaluate and decide. M4 was not part of the lab yet.</li></ul>
+        <p class="footer-note">The day closed with demos of projects of our choice; AetherIaI, the prototype I showed, was among the ten winners.</p>` },
     { kind: 'arch', stage: 0, title: 'Before (M0)',
       caption: 'Dashed red: risky path. Amber: works, but too broadly or unscreened.' },
     { title: 'What was found, and what was done', html: `<div class="table-wrap"><table><thead><tr><th>At the start</th><th>Done</th></tr></thead><tbody>
@@ -1343,23 +1338,22 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
         <tr><td>Same kind of message, through Model Armor</td><td><span class="pill ok"><span class="dot"></span>Blocked</span></td><td>5% match still served</td></tr>
         <tr><td>Scorecard, 4 scenarios (M5)</td><td><span class="pill ok"><span class="dot"></span>4 of 4 · GO</span></td><td>Override case stopped by Model Armor; four cases cannot certify an agent</td></tr></tbody></table></div>
         <p class="footer-note">No M1 row: my notes do not include the audit-log lines that would show its changes.</p>` },
-    { title: 'Verdict: very useful, 10 out of 10', html: `<p class="lead-verdict"><strong>Recommended for platform, security and data engineering.</strong></p>
+    { title: 'Verdict: very useful, 9 out of 10', html: `<p class="lead-verdict"><strong>Recommended for platform, security and data engineering.</strong></p>
         <div class="two"><div><p><strong>Strong</strong></p><ul>
         <li>Real infrastructure and real failure modes: screening the whole project, the obvious fix, also blocked legitimate 5% matches.</li>
         <li>Evidence, not opinion: legitimate paths tested alongside the attacks, and the go decision made on a scorecard.</li></ul></div><div><p><strong>Limits</strong></p><ul>
         <li>A small lab project, not our own systems.</li>
         <li>Screening covers one agent and fails open.</li>
         <li>Broad project-wide roles can still call agents around their caller lists.</li>
-        <li>No cost or latency numbers.</li></ul></div></div>
-        <p class="footer-note">Also mentioned at the workshop, though not part of the lab: Jev from TypeSafe AI, a model that returns typed answers with probabilities, for code to act on. One of the Google presenters spoke well of it; we have not evaluated it.</p>` },
-    { title: 'Recommendation: five controls in 90 days', html: `<div class="table-wrap"><table><thead><tr><th>Control</th><th>Weeks</th></tr></thead><tbody>
-        ${GATES.map(g => `<tr><td><strong>${esc(g.t)}</strong></td><td style="white-space:nowrap">${esc(g.when.replace('Weeks ', ''))}</td></tr>`).join('')}</tbody></table></div>
-        <p class="footer-note">Applies to any agent that holds credentials or talks to customers, before it reaches production.</p>` },
-    { title: 'What I am asking for', html: `<ol>
-        <li><strong>Decide</strong> whether the five controls become our release rule for agents.</li>
-        <li><strong>Next week, inventory our most sensitive project:</strong> every agent, its identity, and who read the most sensitive data in the last 30 days. Check first that data-access audit logging is on.</li>
-        <li><strong>Owner:</strong> platform team, with security reviewing. <strong>Deliverable:</strong> a one-page register and a list of shared or unowned identities.</li>
-        <li><strong>Then pilot</strong> one customer-facing agent through the five controls, with a scenario set of at least a few dozen cases.</li></ol>` },
+        <li>Not ideal: the code-security mission (M4) was not part of the lab yet, and cost and latency got no numbers.</li></ul></div></div>
+        <p class="footer-note">Also mentioned, though not part of the lab: Jev from TypeSafe AI, a model that returns typed answers with probabilities, for code to act on. One of the Google presenters spoke well of it; we have not evaluated it.</p>` },
+    { title: 'Five controls that carry over', html: `<ol>${GATES.map(g => `<li><strong>${esc(g.t)}</strong></li>`).join('')}</ol>
+        <p class="footer-note">They apply to any agent that holds credentials or talks to customers.</p>` },
+    { title: 'How this applies', html: `<ul>
+        <li><strong>In my Gemini Enterprise work,</strong> these are the questions clients raise as agents move from prototype to production.</li>
+        <li><strong>For teams doing the same work,</strong> the five controls may be a useful cross-check against what is already in place.</li>
+        <li><strong>Easiest to reuse:</strong> the lab’s inventory works on other projects too, changes nothing, and shows where a project stands. Its read history relies on data-access audit logging, which outside BigQuery is off by default.</li>
+        <li><strong>Happy to walk any team through it</strong> and to compare notes with the teams already doing this.</li></ul>` },
   ];
   $('#slide-count').textContent = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'][SLIDES.length] || String(SLIDES.length);
 

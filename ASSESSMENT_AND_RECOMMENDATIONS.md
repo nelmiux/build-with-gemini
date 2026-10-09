@@ -2,7 +2,7 @@
 ## Google Cloud "Build with Gemini" Agent Platform Track (M0–M5)
 
 > [!NOTE]
-> **Earlier draft, kept for reference.** The current assessment, recommendation and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). Some figures below were not measured in the lab (the percentages in sections 1 and 2, including the 18%→94% posture score and the 99.9% blast-radius figure, the compliance claims, and the 15–25 ms latency estimate in the FAQ), and mission M4 was not available at the workshop: the Module 4 items describe my own note, not lab work.
+> **Earlier draft, kept for reference.** The current assessment, recommendation and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). The report rates the workshop 9 out of 10, not the 10 / 10 and A+ below, and offers the five controls as a recommendation, not a mandate or a 90-day plan. Some figures below were not measured in the lab (the percentages in sections 1 and 2, including the 18%→94% posture score and the 99.9% blast-radius figure, the compliance claims, and the 15–25 ms latency estimate in the FAQ), and mission M4 was not available at the workshop: the Module 4 items describe my own note, not lab work.
 
 
 **Author:** Head of AI Platform & Security  
