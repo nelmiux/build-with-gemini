@@ -6,3 +6,7 @@ node_modules/
 
 # Assembled static site (built by scripts/build_site.sh and the Pages workflow)
 _site/
+
+# Documents exported for a writer and import reports (scripts/text_review.py)
+text-review/
+__pycache__/

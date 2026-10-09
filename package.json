@@ -8,7 +8,10 @@
     "serve": "python3 -m http.server 8080 --bind 127.0.0.1",
     "build": "bash scripts/build_site.sh _site",
     "validate:diagrams": "bash scripts/validate_diagrams.sh",
-    "test": "bash scripts/verify_estate.sh"
+    "test": "bash scripts/verify_estate.sh",
+    "text:export": "python3 scripts/text_review.py export",
+    "text:import": "python3 scripts/text_review.py import",
+    "text:check": "python3 scripts/text_review.py check && python3 -m unittest discover -s scripts/textreview/tests -t scripts"
   },
   "keywords": [
     "google-cloud",

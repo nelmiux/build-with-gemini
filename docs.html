@@ -889,7 +889,7 @@
       const prev = i > 0 ? FLAT_DOCS[i - 1] : null;
       const next = i >= 0 && i < FLAT_DOCS.length - 1 ? FLAT_DOCS[i + 1] : null;
       const link = (d, cls, hint) => d
-        ? `<a class="${cls}" href="${docUrl(d.path)}" data-path="${escapeHtml(d.path)}"><span class="hint">${hint}</span><span class="label">${escapeHtml(d.title)}</span></a>`
+        ? `<a class="${cls}" href="${docUrl(d.path)}" data-path="${escapeHtml(d.path)}"><span class="hint">${escapeHtml(hint)}</span><span class="label">${escapeHtml(d.title)}</span></a>`
         : '<span class="spacer"></span>';
       $('#pager').innerHTML = link(prev, 'prev', '← Previous') + link(next, 'next', 'Next →');
       $('#pager').querySelectorAll('a').forEach(a => a.addEventListener('click', e => {

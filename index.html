@@ -1110,7 +1110,7 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
       const kindLabel = { blocked: 'closed', risk: 'risky', warn: 'too broad / unscreened', ok: 'allowed' };
       const connHtml = conns.length ? `<ul class="changes-list" style="margin-top:8px">${conns.map(([f, t, type, label]) => {
         const other = f === selected ? NODES[t].name : NODES[f].name; const dir = f === selected ? '→' : '←';
-        return `<li><span class="pill ${type === 'blocked' ? 'risk' : type}" style="margin-right:6px"><span class="dot"></span>${kindLabel[type]}</span>${dir} ${esc(other)}: ${esc(label)}</li>`; }).join('')}</ul>` : '<p class="small muted" style="margin-top:6px">No connections at this stage.</p>';
+        return `<li><span class="pill ${type === 'blocked' ? 'risk' : type}" style="margin-right:6px"><span class="dot"></span>${esc(kindLabel[type])}</span>${dir} ${esc(other)}: ${esc(label)}</li>`; }).join('')}</ul>` : '<p class="small muted" style="margin-top:6px">No connections at this stage.</p>';
       box.innerHTML = `
         <div class="title">${esc(n.name)}</div>
         <div class="kind">${esc(n.kind)}</div>
@@ -1133,7 +1133,7 @@ USER: "Match competitor price of $95 on $100 shelf price item (5% discount)."
         if (ready && announce) announce.textContent = `${stage.code}: ${stage.title}`;
       }
       $('[data-role="edges-text"]', host).innerHTML = '<p>Connections at this stage:</p><ul>' + stage.edges.filter(([f, t]) => stage.nodes[f] && stage.nodes[t])
-        .map(([f, t, type, label]) => `<li>${esc(NODES[f].name)} to ${esc(NODES[t].name)}: ${esc(label)} (${STATUS_WORDS[type]})</li>`).join('') + '</ul>';
+        .map(([f, t, type, label]) => `<li>${esc(NODES[f].name)} to ${esc(NODES[t].name)}: ${esc(label)} (${esc(STATUS_WORDS[type])})</li>`).join('') + '</ul>';
       $$('.node', host).forEach(el => {
         const id = el.dataset.node, st = stage.nodes[id];
         el.classList.remove('ok', 'warn', 'risk', 'muted', 'hidden', 'changed');

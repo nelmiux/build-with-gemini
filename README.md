@@ -143,6 +143,19 @@ In the `scripts/` directory:
 
 ---
 
+## ✍️ Editing the Text with a Writer
+
+The text readers see (the report, the slides, the docs page, its documents, and the page-not-found page) can go to a writer as a Word document and come back without anyone editing code. Not included: the labels inside the documents' diagrams, code blocks, commands and recorded outputs, and a few words that come from styling (such as the “changed” badge on diagram boxes); change those in the source.
+
+1. **Export.** Run `npm run text:export`. It writes two files to `text-review/`, which Git ignores: `report-text.docx` (the report page and its slides) and `docs-text.docx` (the docs page and the documents it shows). Each row holds one piece of text: where it appears on the left, the text on the right. Word opens the file with Track Changes on. Google Docs works too: upload the file, edit in Suggesting mode, then download it as a .docx file.
+2. **Review.** The writer edits the right-hand column and sends the file back. Comments are welcome; the import collects them.
+3. **Import.** Run `npm run text:import -- path/to/the-file.docx` (add `--preview` to see the changes without making them). The import accepts every tracked change and writes each edit to every place that text appears. Values the page fills in (shown as `{1}`), product names, and inline code stay exactly as they were; links keep their addresses, and any added, removed, or refused change is listed in the report. It then checks that the pages' scripts still parse and that every edit reads back exactly as written; an edit that fails a check is set aside, and the others are written. If the document cannot be read as a review at all (for example, its table was turned into plain text), nothing is written. A report in `text-review/` lists each change, anything not applied and why, and the writer's comments.
+4. **Publish.** Check the pages with `npm start`, review the edits with `git diff`, then commit and push.
+
+Export a fresh document for each round of edits: if a piece of text changed after the export, its edit is not applied, and the report says so. The three workshop questions are kept word for word, so they are shown for context only. After changing the pages, `npm run text:check` confirms that the round trip still works. The tool needs Python 3.9 or newer and nothing else.
+
+---
+
 ## 🚢 Deployment (GitHub Pages)
 
 The site is published automatically by the [`Deploy site to GitHub Pages`](https://github.com/nelmiux/build-with-gemini/blob/main/.github/workflows/pages.yml) workflow on every push to `main`:
