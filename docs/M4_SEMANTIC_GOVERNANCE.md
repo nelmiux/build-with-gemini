@@ -1,7 +1,7 @@
 # M4: Semantic Tool Governance & Data Leak Defense
 
 > [!NOTE]
-> Mission M4 (“Find and Patch”) was **not available at the workshop**: the official lab guide lists it as “not part of this lab yet”, and attendees went from M3 straight to M5. The guide's M4 is CodeMender, an AI code-security agent that scans an agent's code, confirms a vulnerability by attempting a real exploit and proposes a tested patch (Public Preview). **This page is not that content.** It is my own note on a related gap that M3 leaves open, an agent misusing a tool it is legitimately allowed to call, written so the series is complete. Unlike M0–M3 and M5 it is not a record of work performed on the lab estate.
+> Mission M4 (“Find and Patch”) was **not available at the workshop**: the official lab guide lists it as “not part of this lab yet,” and attendees went from M3 straight to M5. The guide's M4 is CodeMender, an AI code-security agent that scans an agent's code, confirms a vulnerability by attempting a real exploit, and proposes a tested patch (Public Preview). **This page is not that content.** It is my own note on a related gap that M3 leaves open, an agent misusing a tool it is legitimately allowed to call, written so the series is complete. Unlike M0–M3 and M5, it is not a record of work performed on the lab estate.
 
 ## Overview
 This note looks at **semantic tool governance** and **tool-leak defense**: how to stop an agent from misusing a tool it is allowed to call.
@@ -46,7 +46,7 @@ flowchart TD
     MCP --> BQ
 ```
 
-### Rules I would enforce:
+### Rules I Would Enforce
 1. **Parameterized Queries**: Prohibit free-form `SELECT *` without explicit equality constraints on `customer_id`.
 2. **Result Size Caps**: Limit maximum returned rows per tool invocation to 1.
 3. **Data Masking**: Redact sensitive PII (credit card hashes, emails) prior to returning tool outputs to the model's working memory.

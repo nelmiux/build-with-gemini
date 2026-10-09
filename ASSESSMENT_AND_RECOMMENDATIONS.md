@@ -2,7 +2,7 @@
 ## Google Cloud "Build with Gemini" Agent Platform Track (M0–M5)
 
 > [!NOTE]
-> **Earlier draft, kept for reference.** The current assessment, recommendation and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). The report rates the workshop 9 out of 10, not the 10 / 10 and A+ below, and offers the five controls as a recommendation, not a mandate or a 90-day plan. Some figures below were not measured in the lab (the percentages in sections 1 and 2, including the 18%→94% posture score and the 99.9% blast-radius figure, the compliance claims, and the 15–25 ms latency estimate in the FAQ), and mission M4 was not available at the workshop: the Module 4 items describe my own note, not lab work.
+> **Earlier draft, kept for reference.** The current assessment, recommendation, and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). The report rates the workshop 9 out of 10, not the 10 / 10 and A+ below, and offers the five controls as a recommendation, not a mandate or a 90-day plan. Some figures below were not measured in the lab (the percentages in sections 1 and 2, including the 18%→94% posture score and the 99.9% blast-radius figure, the compliance claims, and the 15–25 ms latency estimate in the FAQ), and mission M4 was not available at the workshop: the Module 4 items describe my own note, not lab work.
 
 
 **Author:** Head of AI Platform & Security  
@@ -16,10 +16,10 @@
 
 Over the course of the **Build with Gemini Platform Track (Modules 0 through 5)**, we conducted a hands-on security and governance transformation of an enterprise multi-agent retail system. 
 
-Beginning with a compromised, high-risk baseline estate (**Module 0**)—characterized by uncatalogued shadow microservices, identity conflation, project-wide database administrative rights, and open public microservices—we systematically implemented a 5-layer defense-in-depth security model:
+Beginning with a compromised, high-risk baseline estate (**Module 0**)—characterized by uncataloged shadow microservices, identity conflation, project-wide database administrative rights, and open public microservices—we systematically implemented a 5-layer defense-in-depth security model:
 1. **Module 1**: Agent Registry cataloging, dedicated service account decoupling, native SPIFFE Agent Identity badges, and BigQuery dataset-level ACL least privilege.
 2. **Module 2**: Vertex AI Reasoning Engine Resource IAM allow-lists, inter-agent perimeter sealing, rogue caller eviction (verified HTTP 403), and Cloud Run microservice lockdown.
-3. **Module 3**: Agent Gateway deployment with inline Model Armor screening, prompt injection interception, backdoor override neutralization (verified HTTP 500), and resolving the "project-wide floor fallacy".
+3. **Module 3**: Agent Gateway deployment with inline Model Armor screening, prompt injection interception, backdoor override neutralization (verified HTTP 500), and resolving the "project-wide floor fallacy."
 4. **Module 4**: Semantic tool governance, parameter equality enforcement, and data exfiltration defense.
 5. **Module 5**: Gen AI Evaluation Service offline benchmarking, LLM-as-a-judge scoring against written company policy, and audit-grade go/no-go launch certification.
 
@@ -31,7 +31,7 @@ This document delivers a thorough **Usefulness Assessment**, **Business ROI Anal
 
 Most industry AI courses and vendor workshops treat "AI Security" as an abstract exercise in prompt engineering ("ask the model nicely not to share secrets"). In contrast, the **Build with Gemini Platform Track** is grounded entirely in **production-grade enterprise cloud mechanics**.
 
-### Key Strengths of the Program:
+### Key Strengths of the Program
 1. **Real Infrastructure, Not Simulated Sandboxes:**
    - We interacted with actual Google Cloud APIs: Vertex AI Reasoning Engines (`aiplatform.reasoningEngines`), Cloud Run microservices, BigQuery dataset ACLs, and the Agent Gateway.
    - We experienced real-world operational quirks, such as managing REST API `etag` concurrency for Reasoning Engine IAM updates.
@@ -44,7 +44,7 @@ Most industry AI courses and vendor workshops treat "AI Security" as an abstract
    - The program demonstrated Google Cloud's native SPIFFE workload identities (`principal://agents.global.org...`), allowing fine-grained, non-repudiable audit logs that link every database query directly to a specific autonomous agent.
 
 4. **Audit-Grade Verification Rigor:**
-   - No change was declared complete without live cryptographic and HTTP proof (e.g. verifying an exact `HTTP 403 PERMISSION_DENIED` response from the evicted rogue caller, and `HTTP 500 Model Armor Violation` on malicious prompts).
+   - No change was declared complete without live cryptographic and HTTP proof (e.g., verifying an exact `HTTP 403 PERMISSION_DENIED` response from the evicted rogue caller, and `HTTP 500 Model Armor Violation` on malicious prompts).
 
 ---
 
@@ -59,7 +59,7 @@ Most industry AI courses and vendor workshops treat "AI Security" as an abstract
 | **Cataloged Asset Ratio** | 66% (1 shadow service) | 100% (Cataloged in Agent Registry) | **100% Inventory Visibility** |
 | **Rogue Caller Refusal Rate** | 0% (Authorized on MSA) | 100% (HTTP 403 Forbidden) | **Zero Unauthorized Ingress** |
 | **Prompt Backdoor Defense** | 0% (90% Liquidation Approved) | 100% (HTTP 500 Model Armor Block) | **100% Policy Enforcement** |
-| **Eval Benchmark Pass Rate** | Untested / Ad-Hoc | 100% Pass Rate (N=4 Baseline Scenarios) | **Audit-Ready Compliance** |
+| **Eval Benchmark Pass Rate** | Untested / Ad Hoc | 100% Pass Rate (N=4 Baseline Scenarios) | **Audit-Ready Compliance** |
 
 ### B. Business & Operational Value
 - **Regulatory & Compliance Readiness:** Meets emerging regulatory requirements (EU AI Act, NIST AI RMF, SOC 2 Type II) by ensuring complete non-repudiation and cryptographic provenance for all autonomous actions.
@@ -87,7 +87,7 @@ Most industry AI courses and vendor workshops treat "AI Security" as an abstract
 
 I formally recommend that our organization adopt the **5-Layer AI Governance Framework** practiced in this lab as the mandatory baseline standard for all generative AI agents.
 
-### Mandatory 5-Point Deployment Gate (The "Production Readiness Rule"):
+### Mandatory 5-Point Deployment Gate (The "Production Readiness Rule")
 No engineering team may deploy an autonomous AI agent into staging or production without satisfying the following gates:
 
 1. **Gate 1: Formal Catalog Registration**

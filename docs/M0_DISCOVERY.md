@@ -56,7 +56,7 @@ flowchart TD
 
 | # | Component | Observed Vulnerability | Impact / Risk |
 |---|---|---|---|
-| **1** | `promo-agent-shadow` | Unregistered Cloud Run microservice running outside the official catalog. | **Shadow IT Risk**: Lack of governance, compliance blindspot, no ownership. |
+| **1** | `promo-agent-shadow` | Unregistered Cloud Run microservice running outside the official catalog. | **Shadow IT Risk**: Lack of governance, compliance blind spot, no ownership. |
 | **2** | `novasmart-customer-sa` | Shared service account used by both `promo-agent-shadow` and `Customer Personalization Agent`. | **Identity Conflation**: Forensic audit logs cannot differentiate marketing tasks from customer queries. |
 | **3** | `novasmart-customer-sa` | Bound to `roles/bigquery.admin` across the entire Google Cloud project. | **Catastrophic Blast Radius**: Any prompt injection or logic flaw could drop or alter every dataset in the project. |
 | **4** | `novasmart-mcp` | Cloud Run service exposing `query_database` tool bound to `roles/run.invoker: allUsers`. | **Public Exposure**: Anonymous HTTP requests from anywhere on the web could query internal databases. |

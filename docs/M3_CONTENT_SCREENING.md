@@ -45,7 +45,7 @@ flowchart TD
 
 ---
 
-## Critical Insight: Gateway Attachment vs Project Floorsettings
+## Critical Insight: Gateway Attachment vs. Project Floorsettings
 
 During our research and testing, a crucial operational finding emerged:
 - **Project Floorsetting Fallacy**: Setting `gcloud model-armor floorsettings` at the project level takes down production. It screens the **assembled LLM call** (which includes developer system instructions and tool definitions). Because the backdoor phrase is in the system prompt, **every single user call** (even legitimate 5% matches) is flagged as an injection (100% false positive).

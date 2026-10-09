@@ -3,7 +3,7 @@
 ## Overview
 In Module 1, we tackled the foundational architectural flaw: **shared identities** and **excessive project-level permissions**.
 
-We decoupled the shadow IT marketing workload from the customer personalization agent, created dedicated service accounts, provisioned native Google Cloud Agent Identities (SPIFFE badges), and enforced dataset-level least privilege on BigQuery.
+We decoupled the shadow IT marketing workload from the Customer Personalization Agent, created dedicated service accounts, provisioned native Google Cloud Agent Identities (SPIFFE badges), and enforced dataset-level least privilege on BigQuery.
 
 ---
 

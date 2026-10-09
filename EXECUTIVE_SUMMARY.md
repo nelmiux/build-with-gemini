@@ -1,14 +1,14 @@
 # Executive Briefing & Work Team Recommendation
 
 > [!NOTE]
-> **Earlier draft, kept for reference.** The current assessment, recommendation and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). The report rates the workshop 9 out of 10, not the 10 / 10 below, and offers the five controls as a recommendation, not a mandatory baseline. Mission M4 was not available at the workshop: the M4 section below describes my own note on tool-call inspection, not work performed in the lab.
+> **Earlier draft, kept for reference.** The current assessment, recommendation, and presentation are in the report at [nelmiux.github.io/build-with-gemini](https://nelmiux.github.io/build-with-gemini/). The report rates the workshop 9 out of 10, not the 10 / 10 below, and offers the five controls as a recommendation, not a mandatory baseline. Mission M4 was not available at the workshop: the M4 section below describes my own note on tool-call inspection, not work performed in the lab.
 
-## Purpose of this Document
+## Purpose of This Document
 This document is designed for the user to present directly to their engineering team, architecture board, and CISO / Security leadership at work. It synthesizes the technical, architectural, and operational outcomes from the **Google Cloud "Build with Gemini" Agent Platform Track (M0–M5)**.
 
 ---
 
-## 1. Executive Summary & The Problem
+## 1. Executive Summary & the Problem
 As enterprises transition from simple chatbots to **autonomous multi-agent systems**, traditional cloud security architectures fail:
 1. **Agents are given tools and credentials**: An agent can query internal customer databases, execute SQL, or call backend microservices.
 2. **Natural language is the control plane**: An attacker does not need an exploit payload; they use prompt injection to trick the model into misusing its authorized tools (the classic **Confused Deputy** problem).
@@ -23,8 +23,8 @@ As enterprises transition from simple chatbots to **autonomous multi-agent syste
 - Identified a shadow marketing agent (`promo-agent-shadow`), an overprivileged service account with project-wide `roles/bigquery.admin`, a publicly exposed MCP tool container (`allUsers`), and an orphaned test account authorized on the back-office pricing engine.
 
 ### • M1: Identity Decoupling & Least Privilege
-- Catalogued the shadow service in **Agent Registry** under Marketing ownership.
-- Decoupled identities: Created dedicated `promo-agent-sa` (zero database rights) and provisioned native **SPIFFE Agent Identities** (`principal://agents.global.org...`) for Reasoning Engines.
+- Cataloged the shadow service in **Agent Registry** under Marketing ownership.
+- Decoupled identities: created dedicated `promo-agent-sa` (zero database rights) and provisioned native **SPIFFE Agent Identities** (`principal://agents.global.org...`) for Reasoning Engines.
 - Stripped `roles/bigquery.admin` and scoped BigQuery access to dataset-level `READER` ACLs directly on `customer_data`.
 
 ### • M2: Inter-Agent Perimeter Lockdown & Tool Sealing
@@ -35,7 +35,7 @@ As enterprises transition from simple chatbots to **autonomous multi-agent syste
 ### • M3: Content Screening & Gateway-Attached Model Armor
 - Discovered prompt backdoor (`NVST-PRICING-7741`) in the Price Match Agent instruction allowing 90% unauthorized markdowns.
 - Deployed **Agent Gateway** with inline **Model Armor** screening on `:streamQuery`, verifying automated refusal of backdoor injection attacks (`HTTP 500: Model Armor: Prompt violates content security configurations`).
-- Proved why project-wide floorsettings fail (false positives on assembled calls) vs Gateway inline screening.
+- Proved why project-wide floorsettings fail (false positives on assembled calls) vs. Gateway inline screening.
 
 ### • M4: Semantic Tool Governance & Data Leak Defense
 - Addressed the authorized data exfiltration vector: prevented agents from using valid read permissions to execute bulk table dumps (`SELECT * FROM customers`).
@@ -43,7 +43,7 @@ As enterprises transition from simple chatbots to **autonomous multi-agent syste
 
 ### • M5: Evaluation Flywheel & Go/No-Go Launch Certification
 - Evaluated the hardened Price Match Agent using the **Gen AI Evaluation Service** against standardized test scenarios.
-- Distinguished model reasoning near-misses from security screen refusals.
+- Distinguished model reasoning near misses from security screen refusals.
 - Certified a **100% Pass Rate** across baseline policy scenarios and issued a formal **GO** launch decision.
 
 ---

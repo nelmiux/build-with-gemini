@@ -3,7 +3,7 @@
 ## Overview
 In Module 2, we addressed **inter-agent access control** and **tool microservice protection**.
 
-In multi-agent systems, sensitive "back-office" agents (e.g. pricing, margin strategy, financial transactions) must only accept invocations from authorized front-desk agents, never directly from external users or orphan test accounts.
+In multi-agent systems, sensitive "back-office" agents (e.g., pricing, margin strategy, financial transactions) must only accept invocations from authorized front-desk agents, never directly from external users or orphan test accounts.
 
 ---
 
