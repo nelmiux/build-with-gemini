@@ -1,9 +1,9 @@
 # M2: Control the Connections — Inter-Agent Boundary & Resource IAM
 
 ## Overview
-In Module 2, we addressed **inter-agent access control** and **tool microservice protection**.
+Module 2 focuses on establishing rigorous **inter-agent access control** and securing **tool microservice perimeters**.
 
-In multi-agent systems, sensitive "back-office" agents (e.g., pricing, margin strategy, financial transactions) must only accept invocations from authorized front-desk agents, never directly from external users or orphan test accounts.
+In distributed multi-agent architectures, sensitive "back-office" agents (e.g., those managing pricing, margin strategies, or financial transactions) must operate within a strict zero-trust boundary. They must only process invocations from explicitly authorized front-desk agents, systematically rejecting direct access from external users or orphaned test credentials.
 
 ---
 
@@ -39,14 +39,15 @@ flowchart TD
 ## Key Remediations & Technical Mechanics
 
 ### 1. Vertex AI Reasoning Engine Resource IAM
-Unlike standard Google Cloud resources, Vertex AI Reasoning Engines do not support `gcloud ai reasoning-engines set-iam-policy`. Modifications must be made via REST API calls with strict etag concurrency management:
+Unlike standard Google Cloud resources, Vertex AI Reasoning Engines do not natively support the `gcloud ai reasoning-engines set-iam-policy` command wrapper. Consequently, access control modifications must be executed via direct REST API calls, ensuring strict `etag` concurrency management to prevent race conditions:
 
 ```bash
 # 1. Fetch current policy and etag
 TOKEN=$(gcloud auth print-access-token)
-curl -s -H "Authorization: Bearer $TOKEN"   https://us-central1-aiplatform.googleapis.com/v1/projects/82075562614/locations/us-central1/reasoningEngines/7249585387520131072:getIamPolicy > /tmp/msa_iam.json
+curl -s -H "Authorization: Bearer $TOKEN" \
+  https://us-central1-aiplatform.googleapis.com/v1/projects/82075562614/locations/us-central1/reasoningEngines/7249585387520131072:getIamPolicy > /tmp/msa_iam.json
 
-# 2. Update policy: Evict test-agent-caller and bind PMA SPIFFE principal
+# 2. Update policy: Evict test-agent-caller and strictly bind the PMA SPIFFE principal
 cat << 'EOF' > /tmp/updated_msa_iam.json
 {
   "policy": {
@@ -64,11 +65,14 @@ cat << 'EOF' > /tmp/updated_msa_iam.json
 EOF
 
 # 3. Apply policy atomically
-curl -s -X POST -H "Authorization: Bearer $TOKEN"   -H "Content-Type: application/json"   -d @/tmp/updated_msa_iam.json   https://us-central1-aiplatform.googleapis.com/v1/projects/82075562614/locations/us-central1/reasoningEngines/7249585387520131072:setIamPolicy
+curl -s -X POST -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d @/tmp/updated_msa_iam.json \
+  https://us-central1-aiplatform.googleapis.com/v1/projects/82075562614/locations/us-central1/reasoningEngines/7249585387520131072:setIamPolicy
 ```
 
 ### 2. Live Verification Results
-1. **Rogue Caller Refusal**: Attempted invocation by `test-agent-caller` returned:
+1. **Rogue Caller Rejection**: An attempted invocation by the `test-agent-caller` account was successfully blocked, returning:
    ```json
    {
      "error": {
@@ -78,5 +82,5 @@ curl -s -X POST -H "Authorization: Bearer $TOKEN"   -H "Content-Type: applicatio
      }
    }
    ```
-2. **Legitimate Escalation**: When Price Match Agent escalated discounts > 10%, Markdown Strategy Agent responded with `HTTP 200 OK` and approved markdown impact.
-3. **MCP Microservice Lockdown**: Revoked `roles/run.invoker: allUsers` on `novasmart-mcp` and bound strictly to Customer Personalization Agent's SPIFFE badge. Anonymous requests now receive `HTTP 403 Forbidden`.
+2. **Legitimate A2A Escalation**: When the Price Match Agent escalated discount requests exceeding 10%, the Markdown Strategy Agent correctly validated the SPIFFE identity, responded with `HTTP 200 OK`, and securely authorized the markdown logic.
+3. **MCP Microservice Lockdown**: The broad `roles/run.invoker: allUsers` binding was revoked from `novasmart-mcp` and restrictively bound exclusively to the Customer Personalization Agent's SPIFFE badge. All anonymous HTTP requests are now reliably dropped with `HTTP 403 Forbidden`.
